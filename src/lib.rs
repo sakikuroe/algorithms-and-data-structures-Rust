@@ -1,3 +1,5 @@
+mod union_find;
+
 #[cfg(test)]
 mod tests {
         #[test]
