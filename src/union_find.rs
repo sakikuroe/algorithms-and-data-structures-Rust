@@ -1,4 +1,4 @@
-use std::{fmt, collections::BTreeSet};
+use std::{collections::BTreeSet, fmt};
 #[derive(Clone)]
 pub struct UnionFind {
         n: usize,
