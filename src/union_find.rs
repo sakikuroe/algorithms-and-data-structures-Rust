@@ -100,5 +100,12 @@ mod tests {
                 assert_eq!(union_find.find(4), union_find.find(5));
                 assert!(!union_find.is_same(0, 5));
                 assert!(union_find.is_same(4, 5));
+
+                assert_eq!(union_find.size(0), 4);
+                assert_eq!(union_find.size(1), 4);
+                assert_eq!(union_find.size(2), 4);
+                assert_eq!(union_find.size(3), 4);
+                assert_eq!(union_find.size(4), 2);
+                assert_eq!(union_find.size(5), 2);
         }
 }
