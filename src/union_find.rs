@@ -1,4 +1,7 @@
+use std::{fmt, collections::BTreeSet};
+#[derive(Clone)]
 pub struct UnionFind {
+        n: usize,
         parent: Vec<usize>,
         rank: Vec<usize>,
         size: Vec<usize>,
@@ -6,10 +9,12 @@ pub struct UnionFind {
 #[allow(dead_code)]
 impl UnionFind {
         pub fn new(number_of_nodes: usize) -> Self {
+                let n = number_of_nodes;
                 let parent: Vec<usize> = (0..number_of_nodes).collect();
                 let rank = vec![0; number_of_nodes];
                 let size = vec![1; number_of_nodes];
                 UnionFind {
+                        n,
                         parent,
                         rank,
                         size,
@@ -53,7 +58,18 @@ impl UnionFind {
                 }
         }
 }
-
+impl fmt::Display for UnionFind {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+                let mut uf = (*self).clone();
+                let n = uf.n;
+                let mut res: Vec<BTreeSet<usize>> = vec![BTreeSet::new(); n];
+                for i in 0..n {
+                        res[uf.find(i)].insert(i);
+                }
+                res.sort();
+                write!(f, "{:?}", res.into_iter().filter(|x| !x.is_empty()).collect::<Vec<BTreeSet<usize>>>())
+        }
+}
 #[cfg(test)]
 mod tests {
         use super::UnionFind;
@@ -61,14 +77,24 @@ mod tests {
         #[test]
         fn it_works() {
                 let mut union_find = UnionFind::new(6);
-                assert_eq!(union_find.find(0), 0);
+                assert_eq!(format!("{}", union_find), "[{0}, {1}, {2}, {3}, {4}, {5}]");
+                assert_eq!(union_find.find(0), union_find.find(0));
                 assert_ne!(union_find.find(0), union_find.find(1));
                 assert_ne!(union_find.find(0), union_find.find(2));
                 assert_ne!(union_find.find(1), union_find.find(2));
+
                 union_find.union(0, 1);
+                assert_eq!(format!("{}", union_find), "[{0, 1}, {2}, {3}, {4}, {5}]");
+
                 union_find.union(0, 2);
+                assert_eq!(format!("{}", union_find), "[{0, 1, 2}, {3}, {4}, {5}]");
+
                 union_find.union(2, 3);
+                assert_eq!(format!("{}", union_find), "[{0, 1, 2, 3}, {4}, {5}]");
+
                 union_find.union(5, 4);
+                assert_eq!(format!("{}", union_find), "[{0, 1, 2, 3}, {4, 5}]");
+
                 assert_eq!(union_find.find(0), union_find.find(1));
                 assert_eq!(union_find.find(0), union_find.find(3));
                 assert_eq!(union_find.find(4), union_find.find(5));
