@@ -117,22 +117,36 @@ pub fn combination(n: Mint, r: Mint) -> Mint {
 mod tests {
     use super::*;
     #[test]
-    fn it_works() {
+    fn value() {
         assert_eq!(Mint::new(5).value(), 5 as usize);
+    }
 
+    #[test]
+    fn operation() {
         assert_eq!(Mint::new(5) + Mint::new(3), Mint::new(8));
         assert_eq!(Mint::new(5) - Mint::new(3), Mint::new(2));
         assert_eq!(Mint::new(5) * Mint::new(3), Mint::new(15));
 
-        assert_eq!(5 * 400000003 % MOD, 1);
+        assert_eq!(Mint::new(5 * 400000003).value(), 1);
         assert_eq!(Mint::new(5) * Mint::new(400000003), Mint::new(1));
         assert_eq!(Mint::new(1) / Mint::new(5), Mint::new(400000003));
 
+        let mut v = Mint::new(10);
+        v += Mint::new(5);
+        assert_eq!(v, Mint::new(15));
+        v -= Mint::new(8);
+        assert_eq!(v, Mint::new(7));
+        v *= Mint::new(7);
+        assert_eq!(v, Mint::new(49));
+        v /= Mint::new(10);
+        assert_eq!(Mint::new(10 * 300000007).value(), 49);
+        assert_eq!(v, Mint::new(300000007));
+    }
+    
+    #[test]
+    fn it_works() {
         assert_eq!(Mint::new(5).pow(3), Mint::new(125));
-
-        assert_eq!(5*4*3*2*1, 120);
         assert_eq!(Mint::new(5).factorial(), Mint::new(120));
-
         assert_eq!(combination(Mint::new(7), Mint::new(3)), Mint::new(35));
         assert_eq!(combination(Mint::new(7), Mint::new(3)).value(), 35);
     }
