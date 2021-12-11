@@ -108,7 +108,7 @@ impl ops::DivAssign for Mint {
 #[allow(dead_code)]
 pub fn permutation(n: Mint, r: Mint) -> Mint {
     let mut res = Mint::new(1);
-    for i in 0..r.value {
+    for i in 0..r.value() {
         res *= Mint::new(n.value - i);
     }
     res
