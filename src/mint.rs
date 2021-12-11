@@ -1,6 +1,6 @@
 use std::ops;
 const MOD: usize = 1_000_000_007;
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct Mint {
     value: usize,
 }
@@ -15,13 +15,18 @@ impl Mint {
         self.value
     }
     pub fn pow(&self, n: usize) -> Mint {
-        if n == 0 {
-            Mint::new(1)
-        } else if n % 2 == 0 {
-            Mint::new((self.clone() * self.clone()).pow(n / 2).value % MOD)
-        } else {
-            Mint::new((self.clone() * self.clone().pow(n - 1)).value % MOD)
+        let mut res = Mint::new(1);
+        let mut n = n;
+        let mut x = self.clone();
+        while n > 0 {
+            if n & 1 == 1 {
+                res *= x;
+            }
+            x = x * x;
+            n = n >> 1;
         }
+
+        res
     }
     pub fn inverse(&self) -> Mint {
         self.pow(MOD - 2)
@@ -142,7 +147,7 @@ mod tests {
         assert_eq!(Mint::new(10 * 300000007).value(), 49);
         assert_eq!(v, Mint::new(300000007));
     }
-    
+
     #[test]
     fn it_works() {
         assert_eq!(Mint::new(5).pow(3), Mint::new(125));
