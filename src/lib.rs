@@ -1,4 +1,5 @@
 mod union_find;
+mod mint;
 
 #[cfg(test)]
 mod tests {
