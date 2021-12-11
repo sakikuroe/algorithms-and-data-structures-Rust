@@ -87,22 +87,22 @@ impl ops::Div for Mint {
 }
 impl ops::AddAssign for Mint {
     fn add_assign(&mut self, other: Self) {
-        self.value = (self.clone() + other).value;
+        self.value = (*self + other).value;
     }
 }
 impl ops::SubAssign for Mint {
     fn sub_assign(&mut self, other: Self) {
-        self.value = (self.clone() - other).value;
+        self.value = (*self - other).value;
     }
 }
 impl ops::MulAssign for Mint {
     fn mul_assign(&mut self, other: Self) {
-        self.value = (self.clone() * other).value;
+        self.value = (*self * other).value;
     }
 }
 impl ops::DivAssign for Mint {
     fn div_assign(&mut self, other: Self) {
-        self.value = (self.clone() / other).value;
+        self.value = (*self / other).value;
     }
 }
 #[allow(dead_code)]
