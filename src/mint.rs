@@ -109,7 +109,7 @@ impl ops::DivAssign for Mint {
 pub fn permutation(n: Mint, r: Mint) -> Mint {
     let mut res = Mint::new(1);
     for i in 0..r.value() {
-        res *= Mint::new(n.value - i);
+        res *= Mint::new(n.value() - i);
     }
     res
 }
