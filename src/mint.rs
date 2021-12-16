@@ -105,7 +105,7 @@ impl ops::DivAssign for Mint {
         self.value = (*self / other).value;
     }
 }
-#[allow(dead_code)]
+
 pub fn permutation(n: Mint, r: Mint) -> Mint {
     let mut res = Mint::new(1);
     for i in 0..r.value() {
@@ -113,7 +113,7 @@ pub fn permutation(n: Mint, r: Mint) -> Mint {
     }
     res
 }
-#[allow(dead_code)]
+
 pub fn combination(n: Mint, r: Mint) -> Mint {
     r.factorial().inverse() * permutation(n, r)
 }
