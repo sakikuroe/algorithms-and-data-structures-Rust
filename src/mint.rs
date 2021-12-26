@@ -153,6 +153,7 @@ mod tests {
     fn it_works() {
         assert_eq!(Mint::new(5).pow(3), Mint::new(125));
         assert_eq!(factorial(5), Mint::new(120));
+        assert_eq!(permutation(7, 3), Mint::new(210));
         assert_eq!(combination(7, 3), Mint::new(35));
     }
 }
