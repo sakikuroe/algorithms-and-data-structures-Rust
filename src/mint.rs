@@ -31,17 +31,6 @@ impl Mint {
     pub fn inverse(&self) -> Mint {
         self.pow(MOD - 2)
     }
-    pub fn factorial(&self) -> Mint {
-        if self.value == 0 {
-            Mint::new(1)
-        } else {
-            let mut res = Mint::new(1);
-            for i in 1..=self.value {
-                res *= Mint::new(i);
-            }
-            res
-        }
-    }
 }
 impl ops::Add for Mint {
     type Output = Mint;
@@ -106,16 +95,28 @@ impl ops::DivAssign for Mint {
     }
 }
 
-pub fn permutation(n: Mint, r: Mint) -> Mint {
+pub fn factorial(n: usize) -> Mint {
+    if n == 0 {
+        Mint::new(1)
+    } else {
+        let mut res = Mint::new(1);
+        for i in 1..=n {
+            res *= Mint::new(i);
+        }
+        res
+    }
+}
+
+pub fn permutation(n: usize, r: usize) -> Mint {
     let mut res = Mint::new(1);
-    for i in 0..r.value() {
-        res *= Mint::new(n.value() - i);
+    for i in 0..r {
+        res *= Mint::new(n - i);
     }
     res
 }
 
-pub fn combination(n: Mint, r: Mint) -> Mint {
-    r.factorial().inverse() * permutation(n, r)
+pub fn combination(n: usize, r: usize) -> Mint {
+    factorial(r).inverse() * permutation(n, r)
 }
 
 #[cfg(test)]
@@ -151,8 +152,7 @@ mod tests {
     #[test]
     fn it_works() {
         assert_eq!(Mint::new(5).pow(3), Mint::new(125));
-        assert_eq!(Mint::new(5).factorial(), Mint::new(120));
-        assert_eq!(combination(Mint::new(7), Mint::new(3)), Mint::new(35));
-        assert_eq!(combination(Mint::new(7), Mint::new(3)).value(), 35);
+        assert_eq!(factorial(5), Mint::new(120));
+        assert_eq!(combination(7, 3), Mint::new(35));
     }
 }
