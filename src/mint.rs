@@ -96,15 +96,7 @@ impl ops::DivAssign for Mint {
 }
 
 pub fn factorial(n: usize) -> Mint {
-    if n == 0 {
-        Mint::new(1)
-    } else {
-        let mut res = Mint::new(1);
-        for i in 1..=n {
-            res *= Mint::new(i);
-        }
-        res
-    }
+    (1..=n).into_iter().fold(Mint::new(1), |x, y| x * Mint::new(y))
 }
 
 pub fn permutation(n: usize, r: usize) -> Mint {
