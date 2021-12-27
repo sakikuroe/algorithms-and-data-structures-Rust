@@ -8,7 +8,6 @@ pub struct UnionFind {
     size: Vec<usize>,
 }
 
-#[allow(dead_code)]
 impl UnionFind {
     pub fn new(number_of_nodes: usize) -> Self {
         UnionFind {
