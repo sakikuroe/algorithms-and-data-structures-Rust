@@ -46,16 +46,16 @@ mod tests {
         let t: Vec<char> = "iu".chars().collect();
 
         // s: aiuiuaoiuuuiu
-        // t: .iu.......... -> 1
+        // t: .iu.......... -> index: 1
 
         // s: aiuiuaoiuuuiu
-        // t: ...iu........ -> 3
+        // t: ...iu........ -> index: 3
 
         // s: aiuiuaoiuuuiu
-        // t: .......iu.... -> 7
+        // t: .......iu.... -> index: 7
 
         // s: aiuiuaoiuuuiu
-        // t: ...........iu -> 11
+        // t: ...........iu -> index: 11
 
         assert_eq!(rolling_hash(&s, &t), vec![1, 3, 7, 11]);
     }
