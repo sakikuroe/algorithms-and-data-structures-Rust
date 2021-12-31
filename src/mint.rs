@@ -1,12 +1,12 @@
 use std::ops;
-const MOD: usize = 1_000_000_007;
+
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub struct Mint {
+pub struct ModInt<const MOD: usize> {
     value: usize,
 }
-impl Mint {
-    pub fn new(value: usize) -> Mint {
-        Mint {
+impl<const MOD: usize> ModInt<MOD> {
+    pub fn new(value: usize) -> ModInt<MOD> {
+        ModInt {
             value: value % MOD,
         }
     }
@@ -14,8 +14,8 @@ impl Mint {
     pub fn value(&self) -> usize {
         self.value
     }
-    pub fn pow(&self, n: usize) -> Mint {
-        let mut res = Mint::new(1);
+    pub fn pow(&self, n: usize) -> ModInt<MOD> {
+        let mut res = ModInt::new(1);
         let mut n = n;
         let mut x = self.clone();
         while n > 0 {
@@ -28,92 +28,93 @@ impl Mint {
 
         res
     }
-    pub fn inverse(&self) -> Mint {
+    pub fn inverse(&self) -> ModInt<MOD> {
         self.pow(MOD - 2)
     }
 }
-impl ops::Add for Mint {
-    type Output = Mint;
+impl<const MOD: usize> ops::Add for ModInt<MOD> {
+    type Output = ModInt<MOD>;
     fn add(self, other: Self) -> Self {
         let mut value = self.value + other.value;
         if value >= MOD {
             value -= MOD;
         }
-        Mint {
+        ModInt {
             value,
         }
     }
 }
-impl ops::Sub for Mint {
-    type Output = Mint;
+impl<const MOD: usize> ops::Sub for ModInt<MOD> {
+    type Output = ModInt<MOD>;
     fn sub(self, other: Self) -> Self {
         if self.value >= other.value {
-            Mint {
+            ModInt {
                 value: self.value - other.value,
             }
         } else {
-            Mint {
+            ModInt {
                 value: (self.value + MOD) - other.value,
             }
         }
     }
 }
-impl ops::Mul for Mint {
-    type Output = Mint;
+impl<const MOD: usize> ops::Mul for ModInt<MOD> {
+    type Output = ModInt<MOD>;
     fn mul(self, other: Self) -> Self {
-        Mint {
+        ModInt {
             value: self.value * other.value % MOD,
         }
     }
 }
-impl ops::Div for Mint {
-    type Output = Mint;
+impl<const MOD: usize> ops::Div for ModInt<MOD> {
+    type Output = ModInt<MOD>;
     fn div(self, other: Self) -> Self {
-        Mint {
+        ModInt {
             value: (self * other.inverse()).value % MOD,
         }
     }
 }
-impl ops::AddAssign for Mint {
+impl<const MOD: usize> ops::AddAssign for ModInt<MOD> {
     fn add_assign(&mut self, other: Self) {
         self.value = (*self + other).value;
     }
 }
-impl ops::SubAssign for Mint {
+impl<const MOD: usize> ops::SubAssign for ModInt<MOD> {
     fn sub_assign(&mut self, other: Self) {
         self.value = (*self - other).value;
     }
 }
-impl ops::MulAssign for Mint {
+impl<const MOD: usize> ops::MulAssign for ModInt<MOD> {
     fn mul_assign(&mut self, other: Self) {
         self.value = (*self * other).value;
     }
 }
-impl ops::DivAssign for Mint {
+impl<const MOD: usize> ops::DivAssign for ModInt<MOD> {
     fn div_assign(&mut self, other: Self) {
         self.value = (*self / other).value;
     }
 }
 
-pub fn factorial(n: usize) -> Mint {
-    (1..=n).into_iter().fold(Mint::new(1), |x, y| x * Mint::new(y))
+pub fn factorial<const MOD: usize>(n: usize) -> ModInt<MOD> {
+    (1..=n).into_iter().fold(ModInt::new(1), |x, y| x * ModInt::new(y))
 }
 
-pub fn permutation(n: usize, r: usize) -> Mint {
-    let mut res = Mint::new(1);
+pub fn permutation<const MOD: usize>(n: usize, r: usize) -> ModInt<MOD> {
+    let mut res = ModInt::new(1);
     for i in 0..r {
-        res *= Mint::new(n - i);
+        res *= ModInt::new(n - i);
     }
     res
 }
 
-pub fn combination(n: usize, r: usize) -> Mint {
+pub fn combination<const MOD: usize>(n: usize, r: usize) -> ModInt<MOD> {
     factorial(r).inverse() * permutation(n, r)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    type Mint = ModInt<1000000007>;
     #[test]
     fn value() {
         assert_eq!(Mint::new(5).value(), 5 as usize);
