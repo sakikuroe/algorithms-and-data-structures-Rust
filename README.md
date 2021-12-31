@@ -4,6 +4,7 @@ Algorithms and Data structures in Rust.
 
 - Algorithms
     - rolling_hash
+    - Lowest Common Ancestor(LCA)
 
 - Data structures
     - UnionFind
