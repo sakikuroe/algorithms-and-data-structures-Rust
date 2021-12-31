@@ -65,7 +65,11 @@ impl fmt::Display for UnionFind {
             res[uf.find(i)].insert(i);
         }
         res.sort();
-        write!(f, "{:?}", res.into_iter().filter(|x| !x.is_empty()).collect::<Vec<BTreeSet<usize>>>())
+        write!(
+            f,
+            "{:?}",
+            res.into_iter().filter(|x| !x.is_empty()).collect::<Vec<BTreeSet<usize>>>()
+        )
     }
 }
 
