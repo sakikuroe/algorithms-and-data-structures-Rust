@@ -11,10 +11,7 @@ pub fn rolling_hash(s: &Vec<char>, t: &Vec<char>) -> Vec<usize> {
         return vec![];
     }
 
-    let mut p = Mint::new(1);
-    for _ in 0..tl {
-        p *= Mint::new(BASE);
-    }
+    let p = Mint::new(BASE).pow(tl);
 
     let mut sh = Mint::new(0);
     let mut th = Mint::new(0);
