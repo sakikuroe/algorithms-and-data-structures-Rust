@@ -1,8 +1,8 @@
 use super::mint::*;
 
-const BASE: usize = (1 << 19) - 1;
+const BASE: usize = 69343957;
 pub fn rolling_hash(s: &Vec<char>, t: &Vec<char>) -> Vec<usize> {
-    type Mint = ModInt<{ (1 << 31) - 1 }>;
+    type Mint = ModInt<{ (1 << 61) - 1 }>;
     let mut res = vec![];
 
     let sl = s.len();
