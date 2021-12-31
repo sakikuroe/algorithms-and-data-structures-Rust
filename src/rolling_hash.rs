@@ -63,7 +63,7 @@ mod tests {
     #[test]
     fn case2() {
         let s: Vec<char> = "oooooooooo".chars().collect();
-        let t: Vec<char> = "oooo".chars().collect( );
+        let t: Vec<char> = "oooo".chars().collect();
 
         assert_eq!(rolling_hash(&s, &t), vec![0, 1, 2, 3, 4, 5, 6]);
     }
@@ -71,7 +71,7 @@ mod tests {
     #[test]
     fn case3() {
         let s: Vec<char> = "oooooooooo".chars().collect();
-        let t: Vec<char> = "aa".chars().collect( );
+        let t: Vec<char> = "aa".chars().collect();
 
         assert_eq!(rolling_hash(&s, &t), vec![]);
     }
