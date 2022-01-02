@@ -18,11 +18,11 @@ impl<const MOD: usize> ModInt<MOD> {
         let mut res = ModInt::new(1);
         let mut x = self.clone();
         while n > 0 {
-            if n & 1 == 1 {
+            if n % 2 == 1 {
                 res *= x;
             }
             x = x * x;
-            n = n >> 1;
+            n /= 2;
         }
 
         res
