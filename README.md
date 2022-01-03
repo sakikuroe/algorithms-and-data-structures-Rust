@@ -3,10 +3,11 @@
 Algorithms and Data structures in Rust.
 
 - Algorithms
-    - rolling_hash
+    - Rolling hash
     - Lowest Common Ancestor(LCA)
+    - Ford-Fullkerson
 
 - Data structures
-    - graph
+    - Graph
     - UnionFind
     - Mint: Fp, Z/pZ (finite field with p elements, Galois field)
