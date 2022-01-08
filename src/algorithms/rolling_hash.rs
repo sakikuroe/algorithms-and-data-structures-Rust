@@ -1,4 +1,4 @@
-use super::mint::*;
+use crate::data_structures::mint::ModInt;
 
 const BASE: usize = 69343957;
 pub fn rolling_hash(s: &Vec<char>, t: &Vec<char>) -> Vec<usize> {

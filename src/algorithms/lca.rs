@@ -1,4 +1,4 @@
-use super::graph::*;
+use crate::data_structures::graph::{Edge, Graph};
 use std::{collections::VecDeque, mem};
 
 const INF: usize = std::usize::MAX / 3;
