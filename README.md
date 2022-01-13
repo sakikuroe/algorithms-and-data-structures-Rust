@@ -6,6 +6,7 @@ Algorithms and Data structures in Rust.
     - Ford-Fullkerson
     - Lowest common ancestor(LCA)
     - Rolling hash
+    - Num(GCD, LCM, is_prime(), etc.)
 
 - Data structures
     - Graph
