@@ -47,7 +47,7 @@ impl LCA {
                 src,
                 dst,
                 weight: _,
-            } in &graph.edges[current]
+            } in graph.edges[current].values()
             {
                 if self.depth[dst] > self.depth[src] + 1 {
                     self.depth[dst] = self.depth[src] + 1;
@@ -94,8 +94,8 @@ mod tests {
         let graph = {
             let mut res = Graph::new(n);
             for &(a, b) in &edges {
-                res.add_edge(a, b);
-                res.add_edge(b, a);
+                res.add_edge(a, b, 1);
+                res.add_edge(b, a, 1);
             }
             res
         };
@@ -123,8 +123,8 @@ mod tests {
         let graph = {
             let mut res = Graph::new(n);
             for &(a, b) in &edges {
-                res.add_edge(a, b);
-                res.add_edge(b, a);
+                res.add_edge(a, b, 1);
+                res.add_edge(b, a, 1);
             }
             res
         };
