@@ -1,4 +1,9 @@
+pub mod bfs;
+pub mod compress;
+pub mod dijkstra;
 pub mod ford_fullkerson;
+pub mod kruskal;
 pub mod lca;
 pub mod num;
 pub mod rolling_hash;
+pub mod sieve_of_eratosthenes;
