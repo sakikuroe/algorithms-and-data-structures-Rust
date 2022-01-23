@@ -1,4 +1,4 @@
-use std::{mem, collections::HashMap};
+use std::{collections::HashMap, mem};
 
 pub fn gcd(mut a: usize, mut b: usize) -> usize {
     if a < b {
@@ -26,7 +26,7 @@ pub fn is_prime(n: usize) -> bool {
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -58,7 +58,7 @@ pub fn integer_factorization(mut n: usize) -> HashMap<usize, usize> {
             n /= i;
         }
         i += 1;
-    }   
+    }
 
     if n != 0 && n != 1 {
         *res.entry(n).or_insert(0) += 1;
@@ -97,7 +97,7 @@ mod tests {
         assert_eq!(lcm(3, 4), 12);
         assert_eq!(lcm(10, 20), 20);
         assert_eq!(lcm(100, 60), 300);
-        assert_eq!(lcm(399, 4), 399*4);
+        assert_eq!(lcm(399, 4), 399 * 4);
 
         assert_eq!(gcd(2, 3), 1);
         assert_eq!(gcd(20, 30), 10);
