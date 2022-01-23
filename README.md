@@ -3,6 +3,9 @@
 Algorithms and Data structures in Rust.
 
 - Algorithms
+    - Breadth first search(BFS)
+    - Compress coordinate
+    - Dijkstra's algorithm
     - Ford-Fullkerson
     - Lowest common ancestor(LCA)
     - Rolling hash
