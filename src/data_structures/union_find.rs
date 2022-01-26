@@ -115,7 +115,7 @@ mod tests {
         union_find.union(5, 4);
         assert_eq!(format!("{}", union_find), "{{0, 1, 2, 3}, {4, 5}}");
 
-        assert_eq!(union_find.number_of_connected_components, 2);
+        assert_eq!(union_find.get_number_of_connected_components(), 2);
         assert_eq!(union_find.find(0), union_find.find(1));
         assert_eq!(union_find.find(0), union_find.find(3));
         assert_eq!(union_find.find(4), union_find.find(5));
