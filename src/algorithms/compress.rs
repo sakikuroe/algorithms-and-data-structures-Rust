@@ -25,13 +25,11 @@ impl Compress {
             vs
         };
 
-        let coordinate = {
-            let d = HashMap::<isize, usize>::from_iter(
-                vs.iter().enumerate().map(|(a, &b)| (b, a)),
-            );
+        let d = HashMap::<isize, usize>::from_iter(
+            vs.iter().enumerate().map(|(a, &b)| (b, a)),
+        );
 
-            v.iter().map(|a| *d.get(a).unwrap()).collect()
-        };
+        let coordinate = v.iter().map(|a| *d.get(a).unwrap()).collect();
 
         Compress {
             coordinate,
@@ -74,21 +72,13 @@ impl Compress2 {
             vs
         };
 
-        let coordinate1 = {
-            let d = HashMap::<isize, usize>::from_iter(
-                vs.iter().enumerate().map(|(a, &b)| (b, a)),
-            );
+        let d = HashMap::<isize, usize>::from_iter(
+            vs.iter().enumerate().map(|(a, &b)| (b, a)),
+        );
 
-            v1.iter().map(|a| *d.get(a).unwrap()).collect()
-        };
+        let coordinate1 = v1.iter().map(|a| *d.get(a).unwrap()).collect();
 
-        let coordinate2 = {
-            let d = HashMap::<isize, usize>::from_iter(
-                vs.iter().enumerate().map(|(a, &b)| (b, a)),
-            );
-
-            v2.iter().map(|a| *d.get(a).unwrap()).collect()
-        };
+        let coordinate2 = v2.iter().map(|a| *d.get(a).unwrap()).collect();
 
         Compress2 {
             coordinate1,
@@ -134,7 +124,7 @@ mod tests {
         assert_eq!(cordinate2, vec![0, 2, 1, 5, 2]);
         assert_eq!(scale, vec![0, 1, 2, 3, 7, 9]);
     }
-    
+
     #[test]
     fn case2_2() {
         let v1 = vec![3, 3, 1, 7, 1];
