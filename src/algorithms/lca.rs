@@ -4,9 +4,9 @@ use std::{collections::VecDeque, mem};
 const INF: usize = std::usize::MAX / 3;
 
 pub struct LCA {
-    height: usize,
-    parent: Vec<Vec<Option<usize>>>,
-    depth: Vec<usize>,
+    pub height: usize,
+    pub parent: Vec<Vec<Option<usize>>>,
+    pub depth: Vec<usize>,
 }
 
 impl LCA {
