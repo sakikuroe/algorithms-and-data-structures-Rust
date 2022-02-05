@@ -85,7 +85,9 @@ impl fmt::Display for UnionFind {
         write!(
             f,
             "{:?}",
-            res.into_iter().filter(|x| !x.is_empty()).collect::<BTreeSet<BTreeSet<usize>>>()
+            res.into_iter()
+                .filter(|x| !x.is_empty())
+                .collect::<BTreeSet<BTreeSet<usize>>>()
         )
     }
 }

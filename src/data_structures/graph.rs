@@ -81,6 +81,18 @@ impl Graph {
         self.edges[src].contains_key(&dst) || self.edges[dst].contains_key(&src)
     }
 
+    pub fn gen_complement(&self) -> Self {
+        let mut g = Graph::new(self.size());
+        for src in 0..g.size() {
+            for dst in src + 1 .. g.size() {
+                if self.contains_edge(src, dst) && self.contains_edge(dst, src) {
+                    g.add_edge(src, dst, 1);
+                }
+            }
+        }
+        g
+    }
+
     pub fn edges(&self, src: usize) -> HashSet<Edge> {
         let mut res = HashSet::new();
         for &edge in self.edges[src].values() {
