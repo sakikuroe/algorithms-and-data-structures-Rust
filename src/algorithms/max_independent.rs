@@ -4,7 +4,7 @@ impl graph::Graph {
     pub fn max_independent(&self) -> usize {
         let n1 = (self.size() + 1) / 2;
         let n2 = self.size() / 2;
-    
+
         let mut ok = vec![true; 1 << n1];
         for v in 0..n1 {
             for graph::Edge {
@@ -25,7 +25,7 @@ impl graph::Graph {
                 }
             }
         }
-    
+
         let mut set = vec![(1 << n2) - 1; 1 << n1];
         for v in 0..n1 {
             set[1 << v] = (1 << n2) - 1;
@@ -45,7 +45,7 @@ impl graph::Graph {
                 set[bit | (1 << w)] = set[bit] & set[1 << w];
             }
         }
-    
+
         let mut ok2 = vec![true; 1 << n2];
         for v in 0..n2 {
             for graph::Edge {
@@ -66,7 +66,7 @@ impl graph::Graph {
                 }
             }
         }
-    
+
         let mut dp = vec![0; 1 << n2];
         for bit in 0..(1 << n2) {
             if ok2[bit] {
@@ -92,7 +92,5 @@ impl graph::Graph {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn it_works() {
-
-    }
+    fn it_works() {}
 }

@@ -84,8 +84,8 @@ impl Graph {
     pub fn gen_complement(&self) -> Self {
         let mut g = Graph::new(self.size());
         for src in 0..g.size() {
-            for dst in src + 1 .. g.size() {
-                if self.contains_edge(src, dst) && self.contains_edge(dst, src) {
+            for dst in src + 1..g.size() {
+                if !self.contains_edge(src, dst) && !self.contains_edge(dst, src) {
                     g.add_edge(src, dst, 1);
                 }
             }
