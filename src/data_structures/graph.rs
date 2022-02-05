@@ -78,8 +78,15 @@ impl Graph {
     }
 
     pub fn connected(&self, src: usize, dst: usize) -> bool {
-        self.edges[src].contains_key(&dst)
-        || self.edges[dst].contains_key(&src)
+        self.edges[src].contains_key(&dst) || self.edges[dst].contains_key(&src)
+    }
+
+    pub fn edges(&self, src: usize) -> HashSet<Edge> {
+        let mut res = HashSet::new();
+        for &edge in self.edges[src].values() {
+            res.insert(edge);
+        }
+        res
     }
 
     pub fn add_undirected_edge(&mut self, src: usize, dst: usize, weight: usize) {
