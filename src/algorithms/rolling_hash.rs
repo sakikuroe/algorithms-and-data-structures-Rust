@@ -1,8 +1,10 @@
 use crate::data_structures::mint::ModInt;
 
+const MOD: usize = (1 << 61) - 1;
 const BASE: usize = 69343957;
+
 pub fn rolling_hash(s: &Vec<char>, t: &Vec<char>) -> Vec<usize> {
-    type Mint = ModInt<{ (1 << 61) - 1 }>;
+    type Mint = ModInt<MOD>;
     let mut res = vec![];
 
     let sl = s.len();
