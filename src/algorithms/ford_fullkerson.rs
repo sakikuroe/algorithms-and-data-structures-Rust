@@ -1,29 +1,12 @@
 use std::{
     cmp,
-    collections::{HashMap, HashSet},
+    collections::HashSet,
 };
+use crate::data_structures::graph;
 const INF: usize = std::usize::MAX / 3;
 
-#[derive(Debug, Clone)]
-pub struct Graph {
-    pub size: usize,
-    pub edges: Vec<HashMap<(usize, usize), usize>>,
-}
-
-impl Graph {
-    pub fn new(n: usize) -> Self {
-        Graph {
-            size: n,
-            edges: vec![HashMap::new(); n],
-        }
-    }
-
-    pub fn add_edge(&mut self, src: usize, dst: usize, cap: usize) {
-        self.edges[src].insert((src, dst), cap);
-        self.edges[dst].insert((dst, src), 0);
-    }
-
-    pub fn dfs(
+impl graph::Graph {
+    pub fn max_frow_dfs(
         &mut self,
         start: usize,
         goal: usize,
@@ -34,12 +17,12 @@ impl Graph {
             return f;
         }
         visited.insert(start);
-        for ((src, dst), w) in self.edges[start].clone() {
-            if !visited.contains(&dst) && w > 0 {
-                let d = self.dfs(dst, goal, cmp::min(f, w), visited);
+        for &graph::Edge{src, dst, weight} in self.clone().edges[start].values() {
+            if !visited.contains(&dst) && weight > 0 {
+                let d = self.max_frow_dfs(dst, goal, cmp::min(f, weight), visited);
                 if d > 0 {
-                    *self.edges[src].get_mut(&(src, dst)).unwrap() -= d;
-                    *self.edges[dst].get_mut(&(dst, src)).unwrap() += d;
+                    self.edges[src].get_mut(&dst).unwrap().weight -= d;
+                    self.edges[dst].get_mut(&src).unwrap().weight += d;
                     return d;
                 }
             }
@@ -51,7 +34,7 @@ impl Graph {
     pub fn max_frow(&mut self, start: usize, goal: usize) -> usize {
         let mut flow = 0;
         loop {
-            let f = self.dfs(start, goal, INF, &mut HashSet::new());
+            let f = self.max_frow_dfs(start, goal, INF, &mut HashSet::new());
             if f == 0 {
                 break;
             } else {
