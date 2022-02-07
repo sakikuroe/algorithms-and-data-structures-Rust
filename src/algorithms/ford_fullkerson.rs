@@ -1,8 +1,5 @@
-use std::{
-    cmp,
-    collections::HashSet,
-};
 use crate::data_structures::graph;
+use std::{cmp, collections::HashSet};
 const INF: usize = std::usize::MAX / 3;
 
 impl graph::Graph {
@@ -56,18 +53,23 @@ mod tests {
 
     #[test]
     fn max_frow_test() {
-        let mut g = graph::Graph::new(5);
+        let mut g = graph::Graph::new(6);
         g.add_edge(0, 1, 2);
-        g.add_edge(1, 0, 0);
-        g.add_edge(0, 2, 1);
-        g.add_edge(2, 0, 0);
-        g.add_edge(1, 2, 1);
-        g.add_edge(2, 1, 0);
-        g.add_edge(1, 3, 1);
-        g.add_edge(3, 1, 0);
-        g.add_edge(2, 3, 2);
-        g.add_edge(3, 2, 0);
+        g.add_edge(0, 3, 5);
+        g.add_edge(1, 2, 3);
+        g.add_edge(2, 5, 4);
+        g.add_edge(3, 2, 2);
+        g.add_edge(3, 4, 1);
+        g.add_edge(4, 5, 1);
 
-        assert_eq!(g.max_frow(0, 3), 3);
+        g.add_edge(1, 0, 0);
+        g.add_edge(3, 0, 0);
+        g.add_edge(2, 1, 0);
+        g.add_edge(5, 2, 0);
+        g.add_edge(2, 3, 0);
+        g.add_edge(4, 3, 0);
+        g.add_edge(5, 4, 0);
+
+        assert_eq!(g.max_frow(0, 3), 5);
     }
 }
