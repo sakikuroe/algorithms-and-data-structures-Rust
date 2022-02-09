@@ -15,10 +15,14 @@ impl Argument {
 }
 impl Ord for Argument {
     fn cmp(&self, other: &Self) -> Ordering {
-        if self.x == 0 && self.y ==0 {
-            return Ordering::Less;
+        if self.x == 0 && self.y == 0 {
+            if other.x == 0 && other.y == 0 {
+                return Ordering::Equal;
+            } else {
+                return Ordering::Less;
+            }
         }
-        if other.x == 0 && other.y ==0 {
+        if other.x == 0 && other.y == 0 {
             return Ordering::Greater;
         }
         if (self.y > 0 || (self.y == 0 && self.x > 0))
