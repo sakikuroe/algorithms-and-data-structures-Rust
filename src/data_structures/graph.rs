@@ -1,6 +1,6 @@
 use std::{
     cmp::Ordering,
-    collections::{BinaryHeap, HashMap, HashSet, VecDeque},
+    collections::{HashMap, HashSet, VecDeque},
     fmt,
 };
 
@@ -106,25 +106,6 @@ impl Graph {
         self.add_edge(dst, src, weight);
     }
 
-    pub fn get_diameter(&self) -> Option<usize> {
-        if !self.is_tree() {
-            return None;
-        }
-        fn arg_max(v: &Vec<usize>) -> usize {
-            v.into_iter()
-                .enumerate()
-                .fold((0, 0), |(i, max), (j, &x)| if max < x { (j, x) } else { (i, max) })
-                .0
-        }
-        let new_src = arg_max(&self.gen_undirected_graph().dijkstra(0));
-        Some(
-            self.gen_undirected_graph()
-                .dijkstra(new_src)
-                .into_iter()
-                .fold(0, |x, y| std::cmp::max(x, y)),
-        )
-    }
-
     pub fn get_all_edges(&self) -> HashSet<Edge> {
         let mut res = HashSet::new();
         for e in &self.edges {
@@ -214,56 +195,6 @@ impl Graph {
         } else {
             return None;
         }
-    }
-
-    pub fn topological_sort(&self) -> Result<Vec<usize>, &str> {
-        let mut indegree = {
-            let mut res = vec![0; self.size];
-            for edge_list in &self.edges {
-                for (_, &e) in edge_list {
-                    res[e.dst] += 1;
-                }
-            }
-            res
-        };
-        let res = {
-            let mut sorted: Vec<usize> = vec![];
-            let mut que = {
-                let mut que = BinaryHeap::new();
-                for i in 0..self.size {
-                    if indegree[i] == 0 {
-                        que.push(Node {
-                            priory: i,
-                            vertex: i,
-                        });
-                    }
-                }
-                que
-            };
-            while let Some(Node {
-                priory,
-                vertex: _,
-            }) = que.pop()
-            {
-                for (_, &e) in &self.edges[priory] {
-                    indegree[e.dst] -= 1;
-                    if indegree[e.dst] == 0 {
-                        que.push(Node {
-                            priory: e.dst,
-                            vertex: e.dst,
-                        })
-                    }
-                }
-                sorted.push(priory);
-            }
-
-            if sorted.len() == self.size {
-                Ok(sorted)
-            } else {
-                Err("-1")
-            }
-        };
-        res
     }
 }
 
