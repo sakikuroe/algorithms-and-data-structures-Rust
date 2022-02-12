@@ -1,5 +1,6 @@
 pub mod bfs;
 pub mod compress;
+pub mod diameter_of_tree;
 pub mod dijkstra;
 pub mod ford_fullkerson;
 pub mod kruskal;
@@ -9,3 +10,4 @@ pub mod max_independent;
 pub mod num;
 pub mod rolling_hash;
 pub mod sieve_of_eratosthenes;
+pub mod topological_sort;
