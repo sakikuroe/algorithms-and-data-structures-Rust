@@ -60,6 +60,11 @@ impl<const MOD: usize> ops::Sub for ModInt<MOD> {
 impl<const MOD: usize> ops::Mul for ModInt<MOD> {
     type Output = ModInt<MOD>;
     fn mul(self, other: Self) -> Self {
+        if MOD < (1 << 32) {
+            return ModInt {
+                value: (self.value * other.value) % MOD,
+            }   
+        }
         let v = (self.value as u128 * other.value as u128) % (MOD as u128);
         ModInt {
             value: v as usize,
