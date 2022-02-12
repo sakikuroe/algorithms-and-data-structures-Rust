@@ -16,7 +16,7 @@ impl<const MOD: usize> ModInt<MOD> {
     }
     pub fn pow(&self, mut n: usize) -> ModInt<MOD> {
         let mut res = ModInt::new(1);
-        let mut x = self.clone();
+        let mut x = ModInt::new(self.value());
         while n > 0 {
             if n % 2 == 1 {
                 res *= x;
