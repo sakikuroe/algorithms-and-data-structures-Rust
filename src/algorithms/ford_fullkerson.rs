@@ -47,7 +47,7 @@ pub struct MaxFlow {
 
 impl MaxFlow {
     pub fn new(n: usize) -> Self {
-        MaxFlow{
+        MaxFlow {
             graph: MaxFlowGraph::new(n),
         }
     }
@@ -95,7 +95,6 @@ impl MaxFlow {
         flow
     }
 }
-
 
 #[cfg(test)]
 mod tests {
