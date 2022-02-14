@@ -1,8 +1,11 @@
-use std::collections::BinaryHeap;
+use std::{collections::BinaryHeap, hash::Hash};
 
 use crate::data_structures::graph::{Graph, Node};
 
-impl Graph {
+impl<T> Graph<T>
+where
+    T: Clone + Copy + Eq + Hash,
+{
     pub fn topological_sort(&self) -> Result<Vec<usize>, &str> {
         let mut indegree = {
             let mut res = vec![0; self.size()];

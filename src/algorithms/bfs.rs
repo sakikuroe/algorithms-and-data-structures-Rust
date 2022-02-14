@@ -1,8 +1,11 @@
 use crate::data_structures::graph;
-use std::{collections::VecDeque, usize::MAX};
+use std::{collections::VecDeque, hash::Hash, usize::MAX};
 const INF: usize = MAX / 3;
 
-impl graph::Graph {
+impl<T> graph::Graph<T>
+where
+    T: Clone + Copy + Eq + Hash,
+{
     pub fn bfs(&mut self, starts: Vec<usize>) -> Vec<usize> {
         let mut res = vec![INF; self.size()];
         let mut que = VecDeque::new();

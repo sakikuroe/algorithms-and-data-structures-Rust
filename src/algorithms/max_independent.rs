@@ -1,6 +1,11 @@
+use std::hash::Hash;
+
 use crate::data_structures::graph;
 
-impl graph::Graph {
+impl<T> graph::Graph<T>
+where
+    T: Copy + Clone + Eq + Hash,
+{
     pub fn max_independent(&self) -> usize {
         let n1 = (self.size() + 1) / 2;
         let n2 = self.size() / 2;

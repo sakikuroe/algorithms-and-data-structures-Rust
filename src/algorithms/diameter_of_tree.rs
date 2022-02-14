@@ -1,6 +1,6 @@
 use crate::data_structures::graph::Graph;
 
-impl Graph {
+impl Graph<usize> {
     pub fn get_diameter(&self) -> Option<usize> {
         if !self.is_tree() {
             return None;

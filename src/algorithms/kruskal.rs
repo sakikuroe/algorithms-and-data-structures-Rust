@@ -1,8 +1,11 @@
 use crate::data_structures::{graph, union_find};
-use std::collections::HashSet;
+use std::{collections::HashSet, hash::Hash};
 
-impl graph::Graph {
-    pub fn kruskal(&self) -> HashSet<graph::Edge> {
+impl<T> graph::Graph<T>
+where
+    T: Clone + Copy + Eq + Hash + Ord,
+{
+    pub fn kruskal(&self) -> HashSet<graph::Edge<T>> {
         let mut res = HashSet::new();
         let mut uf = union_find::UnionFind::new(self.size());
         let mut all_edges = self.get_all_edges().into_iter().collect::<Vec<_>>();

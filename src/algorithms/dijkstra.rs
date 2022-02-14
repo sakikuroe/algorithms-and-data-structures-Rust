@@ -2,7 +2,7 @@ use crate::data_structures::graph;
 use std::{collections::BinaryHeap, usize::MAX};
 const INF: usize = MAX / 3;
 
-impl graph::Graph {
+impl graph::Graph<usize> {
     pub fn dijkstra(&self, start: usize) -> Vec<usize> {
         let mut res = vec![INF; self.size()];
         res[start] = 0;

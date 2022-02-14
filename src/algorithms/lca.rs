@@ -10,7 +10,7 @@ pub struct LCA {
 }
 
 impl LCA {
-    pub fn new(n: usize, root: usize, graph: &Graph) -> LCA {
+    pub fn new<T>(n: usize, root: usize, graph: &Graph<T>) -> LCA {
         let height = {
             let mut cnt = 1;
             while (1 << cnt) < n {
@@ -36,7 +36,7 @@ impl LCA {
         res
     }
 
-    fn bfs(&mut self, graph: &Graph, start: &Vec<usize>) {
+    fn bfs<T>(&mut self, graph: &Graph<T>, start: &Vec<usize>) {
         let mut que = VecDeque::new();
         for &start in start {
             que.push_back(start);
