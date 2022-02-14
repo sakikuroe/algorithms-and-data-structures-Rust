@@ -63,7 +63,7 @@ impl<const MOD: usize> ops::Mul for ModInt<MOD> {
         if MOD < (1 << 32) {
             return ModInt {
                 value: (self.value * other.value) % MOD,
-            }   
+            };
         }
         let v = (self.value as u128 * other.value as u128) % (MOD as u128);
         ModInt {
