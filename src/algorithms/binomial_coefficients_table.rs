@@ -25,6 +25,9 @@ impl<const MOD: usize> BinomicalCoeff<MOD> {
     }
 
     pub fn get_value(&self, n: usize, r: usize) -> ModInt<MOD> {
+        if n < r {
+            return ModInt::<MOD>::new(0);
+        }
         self.factorial_table[n]
             * self.factorial_inv_table[r]
             * self.factorial_inv_table[n - r]
