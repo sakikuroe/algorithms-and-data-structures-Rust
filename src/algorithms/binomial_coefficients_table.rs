@@ -8,16 +8,23 @@ pub struct BinomicalCoeff<const MOD: usize> {
 impl<const MOD: usize> BinomicalCoeff<MOD> {
     pub fn new(max_size: usize) -> BinomicalCoeff<MOD> {
         let mut factorial_table = vec![];
-        let mut factorial_inv_table = vec![];
 
         let mut factorial = ModInt::<MOD>::new(1);
         factorial_table.push(factorial);
-        factorial_inv_table.push(factorial.inverse());
         for i in 1..=max_size {
             factorial *= ModInt::<MOD>::new(i);
             factorial_table.push(factorial);
-            factorial_inv_table.push(factorial.inverse());
         }
+
+        let mut factorial_inv_table = vec![];
+        let mut s_inv = factorial_table[max_size].inverse();
+        factorial_inv_table.push(s_inv);
+        for i in (1..=max_size).rev() {
+            s_inv *= ModInt::<MOD>::new(i);
+            factorial_inv_table.push(s_inv);
+        }
+        factorial_inv_table.reverse();
+
         BinomicalCoeff {
             factorial_table,
             factorial_inv_table,
