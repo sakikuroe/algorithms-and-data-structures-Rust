@@ -4,6 +4,7 @@ pub mod compress;
 pub mod diameter_of_tree;
 pub mod dijkstra;
 pub mod ford_fullkerson;
+pub mod grundy;
 pub mod kruskal;
 pub mod lca;
 pub mod max_clique;
