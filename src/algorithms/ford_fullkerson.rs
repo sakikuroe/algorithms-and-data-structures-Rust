@@ -1,16 +1,16 @@
 const INF: usize = std::usize::MAX / 3;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
-struct FrowEdge {
+pub struct FlowEdge {
     src: usize,
     dst: usize,
     cap: usize,
     rev: usize,
 }
 
-impl FrowEdge {
-    fn new(src: usize, dst: usize, cap: usize, rev: usize) -> FrowEdge {
-        FrowEdge {
+impl FlowEdge {
+    fn new(src: usize, dst: usize, cap: usize, rev: usize) -> FlowEdge {
+        FlowEdge {
             src,
             dst,
             cap,
@@ -22,7 +22,7 @@ impl FrowEdge {
 #[derive(Debug, Clone)]
 struct MaxFlowGraph {
     size: usize,
-    edges: Vec<Vec<FrowEdge>>,
+    edges: Vec<Vec<FlowEdge>>,
 }
 
 impl MaxFlowGraph {
@@ -35,9 +35,9 @@ impl MaxFlowGraph {
 
     fn add_edge(&mut self, src: usize, dst: usize, cap: usize) {
         let src_len = self.edges[dst].len();
-        self.edges[src].push(FrowEdge::new(src, dst, cap, src_len));
+        self.edges[src].push(FlowEdge::new(src, dst, cap, src_len));
         let dst_len = self.edges[src].len();
-        self.edges[dst].push(FrowEdge::new(dst, src, 0, dst_len - 1));
+        self.edges[dst].push(FlowEdge::new(dst, src, 0, dst_len - 1));
     }
 }
 
@@ -82,7 +82,7 @@ impl MaxFlow {
         return 0;
     }
 
-    pub fn max_frow(&mut self, start: usize, goal: usize) -> usize {
+    pub fn max_flow(&mut self, start: usize, goal: usize) -> usize {
         let mut flow = 0;
         loop {
             let f = self.dfs(start, goal, INF, &mut vec![false; self.graph.size]);
@@ -101,7 +101,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn max_frow_test() {
+    fn max_flow_test() {
         let mut g = MaxFlow::new(6);
         g.add_edge(0, 1, 2);
         g.add_edge(0, 3, 5);
@@ -111,6 +111,6 @@ mod tests {
         g.add_edge(3, 4, 1);
         g.add_edge(4, 5, 1);
 
-        assert_eq!(g.max_frow(0, 3), 5);
+        assert_eq!(g.max_flow(0, 3), 5);
     }
 }
