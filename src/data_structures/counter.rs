@@ -25,6 +25,13 @@ where
     pub fn values(&mut self) -> Vec<usize> {
         self.counter.clone().into_values().collect()
     }
+    
+    pub fn get(&self, key: T) -> usize {
+        match self.counter.get(&key) {
+            Some(&cnt) => cnt,
+            None => 0,
+        }
+    }
 
     pub fn get_common(&self) -> Vec<(T, usize)> {
         let mut res = self.counter.clone().into_iter().collect::<Vec<_>>();
@@ -60,5 +67,9 @@ mod tests {
         let v = vec!["abc", "def", "ghi", "abc", "abc"];
         let counter = Counter::new(&v);
         assert_eq!(vec![("abc", 3), ("def", 1), ("ghi", 1)], counter.get_common());
+        
+        assert_eq!(counter.get("abc"), 3);
+        assert_eq!(counter.get("def"), 1);
+        assert_eq!(counter.get("jkl"), 0);
     }
 }
