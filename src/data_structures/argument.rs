@@ -2,8 +2,8 @@ use std::cmp::Ordering;
 
 #[derive(Clone, Copy, Eq, Debug)]
 pub struct Argument {
-    x: isize,
-    y: isize,
+    pub x: isize,
+    pub y: isize,
 }
 impl Argument {
     pub fn new(x: isize, y: isize) -> Self {
