@@ -168,15 +168,63 @@ where
     }
 
     pub fn is_tree(&self) -> bool {
-        if self.get_connected_components() != 1 {
-            return false;
-        }
         let g = self.gen_undirected_graph();
-        if g.get_all_edges().len() == 2 * (g.size - 1) {
-            return true;
-        } else {
-            return false;
+        let mut visited = {
+            let mut res = vec![false; self.size()];
+            res[0] = true;
+            res
+        };
+        let mut que = {
+            let mut res = VecDeque::new();
+            res.push_back((0, None));
+            res
+        };
+
+        while let Some((node, prev)) = que.pop_front() {
+            for e in g.edges(node) {
+                if !visited[e.dst] {
+                    visited[e.dst] = true;
+                    que.push_back((e.dst, Some(e.src)));
+                } else {
+                    match prev {
+                        Some(node) => if e.dst != node {return false},
+                        None => return false,
+                    }
+                }
+            }
         }
+        
+        return visited.into_iter().fold(true, |x,y|x&&y);
+    }
+
+    pub fn is_partially_tree(&self, i: usize) -> bool {
+        let g = self.gen_undirected_graph();
+        let mut visited = {
+            let mut res = vec![false; self.size()];
+            res[i] = true;
+            res
+        };
+        let mut que = {
+            let mut res = VecDeque::new();
+            res.push_back((i, None));
+            res
+        };
+
+        while let Some((node, prev)) = que.pop_front() {
+            for e in g.edges(node) {
+                if !visited[e.dst] {
+                    visited[e.dst] = true;
+                    que.push_back((e.dst, Some(e.src)));
+                } else {
+                    match prev {
+                        Some(node) => if e.dst != node {return false},
+                        None => return false,
+                    }
+                }
+            }
+        }
+        
+        return true;
     }
 
     pub fn is_bipartite(&self) -> Option<(usize, usize)> {
@@ -242,7 +290,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn value() {
+    fn case1() {
         let mut g = Graph::new(7);
         g.add_edge(0, 1, 1);
         g.add_edge(0, 2, 1);
@@ -251,5 +299,31 @@ mod tests {
         g.add_edge(2, 5, 1);
         g.add_edge(2, 6, 1);
         assert_eq!(g.is_tree(), true);
+        assert_eq!(g.is_partially_tree(0), true);
+        assert_eq!(g.is_partially_tree(1), true);
+        assert_eq!(g.is_partially_tree(2), true);
+        assert_eq!(g.is_partially_tree(3), true);
+        assert_eq!(g.is_partially_tree(4), true);
+        assert_eq!(g.is_partially_tree(5), true);
+        assert_eq!(g.is_partially_tree(6), true);
+    }
+
+    #[test]
+    fn case2() {
+        let mut g = Graph::new(7);
+        g.add_edge(0, 1, 1);
+        g.add_edge(0, 2, 1);
+        g.add_edge(3, 4, 1);
+        g.add_edge(4, 5, 1);
+        g.add_edge(5, 6, 1);
+        g.add_edge(6, 3, 1);
+        assert_eq!(g.is_tree(), false);
+        assert_eq!(g.is_partially_tree(0), true);
+        assert_eq!(g.is_partially_tree(1), true);
+        assert_eq!(g.is_partially_tree(2), true);
+        assert_eq!(g.is_partially_tree(3), false);
+        assert_eq!(g.is_partially_tree(4), false);
+        assert_eq!(g.is_partially_tree(5), false);
+        assert_eq!(g.is_partially_tree(6), false);
     }
 }
