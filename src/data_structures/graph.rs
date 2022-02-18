@@ -168,7 +168,6 @@ where
     }
 
     pub fn is_tree(&self) -> bool {
-        let g = self.gen_undirected_graph();
         let mut visited = {
             let mut res = vec![false; self.size()];
             res[0] = true;
@@ -181,24 +180,27 @@ where
         };
 
         while let Some((node, prev)) = que.pop_front() {
-            for e in g.edges(node) {
+            for e in self.edges(node) {
                 if !visited[e.dst] {
                     visited[e.dst] = true;
                     que.push_back((e.dst, Some(e.src)));
                 } else {
                     match prev {
-                        Some(node) => if e.dst != node {return false},
+                        Some(node) => {
+                            if e.dst != node {
+                                return false;
+                            }
+                        }
                         None => return false,
                     }
                 }
             }
         }
-        
-        return visited.into_iter().fold(true, |x,y|x&&y);
+
+        return visited.into_iter().fold(true, |x, y| x && y);
     }
 
     pub fn is_partially_tree(&self, i: usize) -> bool {
-        let g = self.gen_undirected_graph();
         let mut visited = {
             let mut res = vec![false; self.size()];
             res[i] = true;
@@ -211,19 +213,23 @@ where
         };
 
         while let Some((node, prev)) = que.pop_front() {
-            for e in g.edges(node) {
+            for e in self.edges(node) {
                 if !visited[e.dst] {
                     visited[e.dst] = true;
                     que.push_back((e.dst, Some(e.src)));
                 } else {
                     match prev {
-                        Some(node) => if e.dst != node {return false},
+                        Some(node) => {
+                            if e.dst != node {
+                                return false;
+                            }
+                        }
                         None => return false,
                     }
                 }
             }
         }
-        
+
         return true;
     }
 
@@ -298,14 +304,14 @@ mod tests {
         g.add_edge(1, 4, 1);
         g.add_edge(2, 5, 1);
         g.add_edge(2, 6, 1);
-        assert_eq!(g.is_tree(), true);
-        assert_eq!(g.is_partially_tree(0), true);
-        assert_eq!(g.is_partially_tree(1), true);
-        assert_eq!(g.is_partially_tree(2), true);
-        assert_eq!(g.is_partially_tree(3), true);
-        assert_eq!(g.is_partially_tree(4), true);
-        assert_eq!(g.is_partially_tree(5), true);
-        assert_eq!(g.is_partially_tree(6), true);
+        assert_eq!(g.gen_undirected_graph().is_tree(), true);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(0), true);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(1), true);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(2), true);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(3), true);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(4), true);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(5), true);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(6), true);
     }
 
     #[test]
@@ -316,14 +322,14 @@ mod tests {
         g.add_edge(3, 4, 1);
         g.add_edge(4, 5, 1);
         g.add_edge(5, 6, 1);
-        g.add_edge(6, 3, 1);
-        assert_eq!(g.is_tree(), false);
-        assert_eq!(g.is_partially_tree(0), true);
-        assert_eq!(g.is_partially_tree(1), true);
-        assert_eq!(g.is_partially_tree(2), true);
-        assert_eq!(g.is_partially_tree(3), false);
-        assert_eq!(g.is_partially_tree(4), false);
-        assert_eq!(g.is_partially_tree(5), false);
-        assert_eq!(g.is_partially_tree(6), false);
+        g.add_edge(3, 6, 1);
+        assert_eq!(g.gen_undirected_graph().is_tree(), false);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(0), true);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(1), true);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(2), true);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(3), false);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(4), false);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(5), false);
+        assert_eq!(g.gen_undirected_graph().is_partially_tree(6), false);
     }
 }
