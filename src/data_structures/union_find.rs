@@ -1,4 +1,7 @@
-use std::{collections::{BTreeSet, HashSet}, fmt, mem};
+use std::{
+    collections::{BTreeSet, HashSet},
+    fmt, mem,
+};
 
 #[derive(Clone)]
 pub struct UnionFind {
