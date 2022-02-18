@@ -169,8 +169,8 @@ where
 
     pub fn is_tree(&self) -> bool {
         let mut visited = {
-            let mut res = vec![false; self.size()];
-            res[0] = true;
+            let mut res = HashSet::new();
+            res.insert(0);
             res
         };
         let mut que = {
@@ -181,8 +181,8 @@ where
 
         while let Some((node, prev)) = que.pop_front() {
             for e in self.edges(node) {
-                if !visited[e.dst] {
-                    visited[e.dst] = true;
+                if !visited.contains(&e.dst) {
+                    visited.insert(e.dst);
                     que.push_back((e.dst, Some(e.src)));
                 } else {
                     match prev {
@@ -197,13 +197,13 @@ where
             }
         }
 
-        return visited.into_iter().fold(true, |x, y| x && y);
+        return visited.len() == self.size
     }
 
     pub fn is_partially_tree(&self, i: usize) -> bool {
         let mut visited = {
-            let mut res = vec![false; self.size()];
-            res[i] = true;
+            let mut res = HashSet::new();
+            res.insert(i);
             res
         };
         let mut que = {
@@ -214,8 +214,8 @@ where
 
         while let Some((node, prev)) = que.pop_front() {
             for e in self.edges(node) {
-                if !visited[e.dst] {
-                    visited[e.dst] = true;
+                if !visited.contains(&e.dst) {
+                    visited.insert(e.dst);
                     que.push_back((e.dst, Some(e.src)));
                 } else {
                     match prev {
