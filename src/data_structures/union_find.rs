@@ -1,4 +1,4 @@
-use std::{collections::BTreeSet, fmt, mem};
+use std::{collections::{BTreeSet, HashSet}, fmt, mem};
 
 #[derive(Clone)]
 pub struct UnionFind {
@@ -28,7 +28,7 @@ impl UnionFind {
         self.number_of_nodes
     }
 
-    fn is_root(&mut self, x: usize) -> bool {
+    pub fn is_root(&mut self, x: usize) -> bool {
         self.parent[x] == x
     }
 
@@ -70,6 +70,10 @@ impl UnionFind {
             let root = self.find(x);
             self.size[root]
         }
+    }
+
+    pub fn get_value(&mut self) -> HashSet<usize> {
+        HashSet::new()
     }
 }
 
