@@ -2,7 +2,7 @@ use std::{collections::HashMap, hash::Hash};
 
 #[derive(Clone, Debug)]
 pub struct Counter<T> {
-    counter: HashMap<T, usize>,
+    pub counter: HashMap<T, usize>,
 }
 
 impl<T> Counter<T>
