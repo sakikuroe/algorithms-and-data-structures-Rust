@@ -27,6 +27,10 @@ where
         self.counter.clone().into_values().collect()
     }
 
+    pub fn keys(&mut self) -> Vec<T> {
+        self.counter.clone().into_keys().collect()
+    }
+
     pub fn get(&self, key: T) -> usize {
         match self.counter.get(&key) {
             Some(&cnt) => cnt,
