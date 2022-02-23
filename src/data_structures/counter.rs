@@ -1,5 +1,6 @@
 use std::{collections::HashMap, hash::Hash};
 
+#[derive(Clone)]
 pub struct Counter<T> {
     counter: HashMap<T, usize>,
 }
