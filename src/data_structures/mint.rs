@@ -6,11 +6,8 @@ pub struct ModInt<const MOD: usize> {
 }
 impl<const MOD: usize> ModInt<MOD> {
     pub fn new(value: usize) -> ModInt<MOD> {
-        ModInt {
-            value: value % MOD,
-        }
+        ModInt { value: value % MOD }
     }
-    #[allow(dead_code)]
     pub fn value(&self) -> usize {
         self.value
     }
@@ -38,9 +35,7 @@ impl<const MOD: usize> ops::Add for ModInt<MOD> {
         if value >= MOD {
             value -= MOD;
         }
-        ModInt {
-            value,
-        }
+        ModInt { value }
     }
 }
 impl<const MOD: usize> ops::Sub for ModInt<MOD> {
@@ -66,9 +61,7 @@ impl<const MOD: usize> ops::Mul for ModInt<MOD> {
             };
         }
         let v = (self.value as u128 * other.value as u128) % (MOD as u128);
-        ModInt {
-            value: v as usize,
-        }
+        ModInt { value: v as usize }
     }
 }
 impl<const MOD: usize> ops::Div for ModInt<MOD> {
@@ -101,7 +94,9 @@ impl<const MOD: usize> ops::DivAssign for ModInt<MOD> {
 }
 
 pub fn factorial<const MOD: usize>(n: usize) -> ModInt<MOD> {
-    (1..=n).into_iter().fold(ModInt::new(1), |x, y| x * ModInt::new(y))
+    (1..=n)
+        .into_iter()
+        .fold(ModInt::new(1), |x, y| x * ModInt::new(y))
 }
 
 pub fn permutation<const MOD: usize>(n: usize, r: usize) -> ModInt<MOD> {
