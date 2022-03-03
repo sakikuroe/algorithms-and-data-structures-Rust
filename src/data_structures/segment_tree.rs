@@ -13,11 +13,8 @@ where
     M: Monoid,
     M::S: Clone + Copy,
 {
-    pub fn new(n: usize) -> Self {
-        let mut size = 1;
-        while n > size {
-            size *= 2;
-        }
+    pub fn new(size: usize) -> Self {
+        let size = size.next_power_of_two();
         SegmentTree::<M> {
             size,
             data: vec![M::id(); 2 * size - 1],
@@ -33,7 +30,7 @@ where
         }
     }
 
-    pub fn find(&self, mut l: usize, mut r: usize) -> M::S {
+    pub fn reduce(&self, mut l: usize, mut r: usize) -> M::S {
         l += self.size - 1;
         r += self.size - 1;
         let mut x1 = M::id();
