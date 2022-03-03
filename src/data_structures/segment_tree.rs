@@ -30,7 +30,7 @@ where
         }
     }
 
-    pub fn reduce(&self, mut l: usize, mut r: usize) -> M::S {
+    pub fn fold(&self, mut l: usize, mut r: usize) -> M::S {
         l += self.size - 1;
         r += self.size - 1;
         let mut x1 = M::id();
