@@ -16,7 +16,7 @@ where
     pub fn new(n: usize) -> Self {
         let mut size = 1;
         while n > size {
-            size <<= 1;
+            size *= 2;
         }
         SegmentTree::<M> {
             size,
