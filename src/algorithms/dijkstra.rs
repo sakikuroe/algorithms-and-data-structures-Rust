@@ -1,4 +1,4 @@
-use crate::data_structures::graph;
+use crate::{chmin, min, data_structures::graph};
 use std::{collections::BinaryHeap, usize::MAX};
 const INF: usize = MAX / 3;
 
@@ -12,17 +12,12 @@ impl graph::Graph<usize> {
             priory: 0,
         });
 
-        while let Some(graph::Node {
-            vertex,
-            priory,
-        }) = que.pop()
-        {
+        while let Some(graph::Node { vertex, priory }) = que.pop() {
             if priory > res[vertex] {
                 continue;
             }
             for &e in self.edges[vertex].values() {
-                if res[e.dst] > res[e.src] + e.weight {
-                    res[e.dst] = res[e.src] + e.weight;
+                if chmin!(res[e.dst], res[e.src] + e.weight) {
                     que.push(graph::Node {
                         vertex: e.dst,
                         priory: res[e.dst],
