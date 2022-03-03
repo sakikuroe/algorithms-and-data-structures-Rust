@@ -9,18 +9,18 @@ impl graph::Graph<usize> {
         let mut que = BinaryHeap::new();
         que.push(graph::Node {
             vertex: start,
-            priory: 0,
+            priority: 0,
         });
 
-        while let Some(graph::Node { vertex, priory }) = que.pop() {
-            if priory > res[vertex] {
+        while let Some(graph::Node { vertex, priority }) = que.pop() {
+            if priority > res[vertex] {
                 continue;
             }
             for &e in self.edges[vertex].values() {
                 if chmin!(res[e.dst], res[e.src] + e.weight) {
                     que.push(graph::Node {
                         vertex: e.dst,
-                        priory: res[e.dst],
+                        priority: res[e.dst],
                     });
                 }
             }

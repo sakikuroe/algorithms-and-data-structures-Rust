@@ -23,28 +23,24 @@ where
                 for i in 0..self.size() {
                     if indegree[i] == 0 {
                         que.push(Node {
-                            priory: i,
+                            priority: i,
                             vertex: i,
                         });
                     }
                 }
                 que
             };
-            while let Some(Node {
-                priory,
-                vertex: _,
-            }) = que.pop()
-            {
-                for (_, &e) in &self.edges[priory] {
+            while let Some(Node { priority, vertex: _ }) = que.pop() {
+                for (_, &e) in &self.edges[priority] {
                     indegree[e.dst] -= 1;
                     if indegree[e.dst] == 0 {
                         que.push(Node {
-                            priory: e.dst,
+                            priority: e.dst,
                             vertex: e.dst,
                         })
                     }
                 }
-                sorted.push(priory);
+                sorted.push(priority);
             }
 
             if sorted.len() == self.size() {

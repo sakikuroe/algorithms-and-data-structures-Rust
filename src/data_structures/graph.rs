@@ -8,7 +8,7 @@ use std::{
 #[derive(Eq, PartialEq)]
 pub struct Node<T> {
     pub vertex: usize,
-    pub priory: T,
+    pub priority: T,
 }
 
 impl<T> Ord for Node<T>
@@ -16,7 +16,7 @@ where
     T: Ord,
 {
     fn cmp(&self, other: &Self) -> Ordering {
-        self.priory.cmp(&other.priory).reverse()
+        self.priority.cmp(&other.priority).reverse()
     }
 }
 
@@ -56,11 +56,7 @@ where
 
 impl<T> Edge<T> {
     pub fn new(src: usize, dst: usize, weight: T) -> Edge<T> {
-        Edge {
-            src,
-            dst,
-            weight,
-        }
+        Edge { src, dst, weight }
     }
 }
 
@@ -197,7 +193,7 @@ where
             }
         }
 
-        return visited.len() == self.size
+        return visited.len() == self.size;
     }
 
     pub fn is_partially_tree(&self, i: usize) -> bool {
