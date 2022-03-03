@@ -47,6 +47,22 @@ where
     }
 
     pub fn find(&self, l: usize, r: usize) -> M::S {
-        self.find_sub(l, r, 0, 0, self.size)
+        let mut l = l + self.size - 1;
+        let mut r = std::cmp::min(r, self.size) + self.size - 1;
+        let mut x1 = M::id();
+        let mut x2 = M::id();
+        while l < r {
+            if l % 2 == 0 {
+                x1 = M::op(x1, self.data[l]);
+            }
+            if r % 2 == 0 {
+                r -= 1;
+                x2 = M::op(self.data[r], x2);
+            }
+            l /= 2;
+            r /= 2;
+        }
+        M::op(x1, x2)
+        // self.find_sub(l, r, 0, 0, self.size)
     }
 }
