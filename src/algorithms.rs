@@ -1,9 +1,11 @@
+pub mod base_to_base;
 pub mod bfs;
 pub mod binomial_coefficients_table;
 pub mod compress;
 pub mod diameter_of_tree;
 pub mod dijkstra;
 pub mod ford_fullkerson;
+pub mod is_correct_bracket;
 pub mod grundy;
 pub mod kruskal;
 pub mod lca;
