@@ -1,12 +1,13 @@
 pub mod base_to_base;
 pub mod bfs;
+pub mod binary_search;
 pub mod binomial_coefficients_table;
 pub mod compress;
 pub mod diameter_of_tree;
 pub mod dijkstra;
 pub mod ford_fullkerson;
-pub mod is_correct_bracket;
 pub mod grundy;
+pub mod is_correct_bracket;
 pub mod kruskal;
 pub mod lca;
 pub mod max_clique;
