@@ -1,4 +1,4 @@
-use crate::{chmin, min, data_structures::graph};
+use crate::{chmin, data_structures::graph};
 use std::{collections::BinaryHeap, usize::MAX};
 const INF: usize = MAX / 3;
 

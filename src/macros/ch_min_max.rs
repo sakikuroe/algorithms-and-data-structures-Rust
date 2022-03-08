@@ -13,12 +13,17 @@ macro_rules! min {
 
 #[macro_export]
 macro_rules! chmin {
-    ($a: expr, $($b: expr),+) => {{
-        let min = min!($($b),+);
-        $a > min && {
-            $a = min;
+    ($a: expr, $b: expr) => {{
+        $a > $b && {
+            $a = $b;
             true
         }
+    }};
+    ($a: expr, $b: expr, $c: expr) => {{
+        chmin!($a, std::cmp::min($b, $c))
+    }};
+    ($a: expr, $b: expr, $c: expr, $($xs: expr),+) => {{
+        chmin!($a, std::cmp::min($b, $c), $($xs),+)
     }};
 }
 
@@ -37,12 +42,17 @@ macro_rules! max {
 
 #[macro_export]
 macro_rules! chmax {
-    ($a: expr, $($b: expr),+) => {{
-        let max = max!($($b),+);
-        $a < max && {
-            $a = max;
+    ($a: expr, $b: expr) => {{
+        $a < $b && {
+            $a = $b;
             true
         }
+    }};
+    ($a: expr, $b: expr, $c: expr) => {{
+        chmax!($a, std::cmp::max($b, $c))
+    }};
+    ($a: expr, $b: expr, $c: expr, $($xs: expr),+) => {{
+        chmax!($a, std::cmp::max($b, $c), $($xs),+)
     }};
 }
 
