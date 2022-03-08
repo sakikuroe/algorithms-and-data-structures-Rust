@@ -19,11 +19,8 @@ macro_rules! chmin {
             true
         }
     }};
-    ($a: expr, $b: expr, $c: expr) => {{
-        chmin!($a, std::cmp::min($b, $c))
-    }};
-    ($a: expr, $b: expr, $c: expr, $($xs: expr),+) => {{
-        chmin!($a, std::cmp::min($b, $c), $($xs),+)
+    ($a: expr, $($xs: expr),+) => {{
+        chmin!($a, crate::min!($($xs),+))
     }};
 }
 
@@ -32,11 +29,8 @@ macro_rules! max {
     ($a: expr) => {
         $a
     };
-    ($a: expr, $b: expr) => {
-        std::cmp::max($a, $b)
-    };
-    ($a: expr, $($b: expr),+) => {
-        std::cmp::max($a, max!($($b),+))
+    ($a: expr, $($xs: expr),+) => {
+        std::cmp::max($a, max!($($xs),+))
     };
 }
 
@@ -48,11 +42,8 @@ macro_rules! chmax {
             true
         }
     }};
-    ($a: expr, $b: expr, $c: expr) => {{
-        chmax!($a, std::cmp::max($b, $c))
-    }};
-    ($a: expr, $b: expr, $c: expr, $($xs: expr),+) => {{
-        chmax!($a, std::cmp::max($b, $c), $($xs),+)
+    ($a: expr, $($xs: expr),+) => {{
+        chmax!($a, crate::max!($($xs),+))
     }};
 }
 
