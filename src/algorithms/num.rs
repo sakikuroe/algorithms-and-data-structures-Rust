@@ -1,10 +1,42 @@
-use std::{collections::HashMap, mem};
+use std::{collections::HashMap, hash::Hash, mem};
 
-pub fn gcd(mut a: usize, mut b: usize) -> usize {
+pub trait Num:
+    Copy
+    + Ord
+    + From<u8>
+    + std::ops::Add<Output = Self>
+    + std::ops::Sub<Output = Self>
+    + std::ops::Mul<Output = Self>
+    + std::ops::Div<Output = Self>
+    + std::ops::Rem<Output = Self>
+    + std::ops::AddAssign
+    + std::ops::SubAssign
+    + std::ops::MulAssign
+    + std::ops::DivAssign
+    + std::ops::RemAssign
+{
+}
+
+pub fn gcd<T>(mut a: T, mut b: T) -> T
+where
+    T: Copy
+        + Ord
+        + From<u8>
+        + std::ops::Add<Output = T>
+        + std::ops::Sub<Output = T>
+        + std::ops::Mul<Output = T>
+        + std::ops::Div<Output = T>
+        + std::ops::Rem<Output = T>
+        + std::ops::AddAssign
+        + std::ops::SubAssign
+        + std::ops::MulAssign
+        + std::ops::DivAssign
+        + std::ops::RemAssign,
+{
     if a < b {
         mem::swap(&mut a, &mut b);
     }
-    while b != 0 {
+    while b != 0.into() {
         let temp = a % b;
         a = b;
         b = temp;
@@ -12,55 +44,118 @@ pub fn gcd(mut a: usize, mut b: usize) -> usize {
     a
 }
 
-pub fn lcm(a: usize, b: usize) -> usize {
+pub fn lcm<T>(a: T, b: T) -> T
+where
+    T: Copy
+        + Ord
+        + From<u8>
+        + std::ops::Add<Output = T>
+        + std::ops::Sub<Output = T>
+        + std::ops::Mul<Output = T>
+        + std::ops::Div<Output = T>
+        + std::ops::Rem<Output = T>
+        + std::ops::AddAssign
+        + std::ops::SubAssign
+        + std::ops::MulAssign
+        + std::ops::DivAssign
+        + std::ops::RemAssign,
+{
     a * b / gcd(a, b)
 }
 
-pub fn is_prime(n: usize) -> bool {
-    if n == 0 || n == 1 {
+pub fn is_prime<T>(n: T) -> bool
+where
+    T: Copy
+        + Ord
+        + From<u8>
+        + std::ops::Add<Output = T>
+        + std::ops::Sub<Output = T>
+        + std::ops::Mul<Output = T>
+        + std::ops::Div<Output = T>
+        + std::ops::Rem<Output = T>
+        + std::ops::AddAssign
+        + std::ops::SubAssign
+        + std::ops::MulAssign
+        + std::ops::DivAssign
+        + std::ops::RemAssign,
+{
+    if n <= 1.into() {
         return false;
     }
 
-    for i in (2..).take_while(|&x| x * x <= n) {
-        if n % i == 0 {
+    let mut i = 2.into();
+    while i * i <= n {
+        if n % i == 0.into() {
             return false;
         }
+        i += 1.into();
     }
 
     return true;
 }
 
-pub fn gen_divisors(n: usize) -> Vec<usize> {
+pub fn gen_divisors<T>(n: T) -> Vec<T>
+where
+    T: Copy
+        + Ord
+        + From<u8>
+        + std::ops::Add<Output = T>
+        + std::ops::Sub<Output = T>
+        + std::ops::Mul<Output = T>
+        + std::ops::Div<Output = T>
+        + std::ops::Rem<Output = T>
+        + std::ops::AddAssign
+        + std::ops::SubAssign
+        + std::ops::MulAssign
+        + std::ops::DivAssign
+        + std::ops::RemAssign,
+{
     let mut res = vec![];
 
-    let mut i = 1;
+    let mut i = 1.into();
     while i * i <= n {
-        if n % i == 0 {
+        if n % i == 0.into() {
             res.push(i);
             if i * i != n {
                 res.push(n / i);
             }
         }
-        i += 1;
+        i += 1.into();
     }
 
     res.sort();
     res
 }
 
-pub fn integer_factorization(mut n: usize) -> HashMap<usize, usize> {
+pub fn integer_factorization<T>(mut n: T) -> HashMap<T, usize>
+where
+    T: Copy
+        + Ord
+        + Hash
+        + From<u8>
+        + std::ops::Add<Output = T>
+        + std::ops::Sub<Output = T>
+        + std::ops::Mul<Output = T>
+        + std::ops::Div<Output = T>
+        + std::ops::Rem<Output = T>
+        + std::ops::AddAssign
+        + std::ops::SubAssign
+        + std::ops::MulAssign
+        + std::ops::DivAssign
+        + std::ops::RemAssign,
+{
     let mut res = HashMap::new();
 
-    let mut i = 2;
+    let mut i = 2.into();
     while i * i <= n {
-        while n % i == 0 {
+        while n % i == 0.into() {
             *res.entry(i).or_insert(0) += 1;
             n /= i;
         }
-        i += 1;
+        i += 1.into();
     }
 
-    if n != 0 && n != 1 {
+    if n != 0.into() && n != 1.into() {
         *res.entry(n).or_insert(0) += 1;
     }
 
