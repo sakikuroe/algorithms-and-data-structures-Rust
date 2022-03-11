@@ -1,22 +1,5 @@
 use std::{collections::HashMap, hash::Hash, mem};
 
-pub trait Num:
-    Copy
-    + Ord
-    + From<u8>
-    + std::ops::Add<Output = Self>
-    + std::ops::Sub<Output = Self>
-    + std::ops::Mul<Output = Self>
-    + std::ops::Div<Output = Self>
-    + std::ops::Rem<Output = Self>
-    + std::ops::AddAssign
-    + std::ops::SubAssign
-    + std::ops::MulAssign
-    + std::ops::DivAssign
-    + std::ops::RemAssign
-{
-}
-
 pub fn gcd<T>(mut a: T, mut b: T) -> T
 where
     T: Copy
