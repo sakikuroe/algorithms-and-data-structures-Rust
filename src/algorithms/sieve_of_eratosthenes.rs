@@ -8,14 +8,13 @@ pub struct SieveOfEratosthenes {
 impl SieveOfEratosthenes {
     pub fn new(max_int: usize) -> SieveOfEratosthenes {
         let sieve = SieveOfEratosthenes::gen_sieve(max_int);
-        SieveOfEratosthenes {
-            max_int,
-            sieve,
-        }
+        SieveOfEratosthenes { max_int, sieve }
     }
 
     fn gen_sieve(max_int: usize) -> Vec<Option<usize>> {
-        let mut res = (0..=max_int).map(|x| Some(x)).collect::<Vec<Option<usize>>>();
+        let mut res = (0..=max_int)
+            .map(|x| Some(x))
+            .collect::<Vec<Option<usize>>>();
         res[0] = None;
         res[1] = None;
         for i in 2..=max_int {
@@ -114,7 +113,10 @@ mod tests {
 
         assert_eq!(sieve.get_max_int(), 1000);
 
-        assert_eq!(HashMap::from([(2, 3), (5, 2)]), sieve.integer_factorization(200));
+        assert_eq!(
+            HashMap::from([(2, 3), (5, 2)]),
+            sieve.integer_factorization(200)
+        );
         assert_eq!(
             HashSet::from([1, 2, 4, 5, 8, 10, 20, 25, 40, 50, 100, 200]),
             sieve.gen_divisors(200)
