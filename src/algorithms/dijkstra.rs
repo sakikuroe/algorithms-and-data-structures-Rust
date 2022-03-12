@@ -16,7 +16,7 @@ impl graph::Graph<usize> {
             if priority > res[vertex] {
                 continue;
             }
-            for &e in self.edges[vertex].values() {
+            for e in &self.edges[vertex] {
                 if chmin!(res[e.dst], res[e.src] + e.weight) {
                     que.push(graph::Node {
                         vertex: e.dst,
@@ -25,7 +25,6 @@ impl graph::Graph<usize> {
                 }
             }
         }
-
         res
     }
 }

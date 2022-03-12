@@ -4,10 +4,10 @@ use crate::data_structures::graph;
 
 impl<T> graph::Graph<T>
 where
-    T: Clone + Copy + Eq + Hash,
+    T: Clone + Copy + Eq + Hash + From<u8>,
 {
     pub fn max_clique(&self) -> usize {
-        self.gen_complement().max_independent()
+        self.gen_complement_graph().max_independent()
     }
 }
 

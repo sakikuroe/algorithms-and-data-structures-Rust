@@ -1,6 +1,5 @@
 use std::hash::Hash;
-
-use crate::data_structures::graph;
+use crate::data_structures::graph::{self, Edge};
 
 impl<T> graph::Graph<T>
 where
@@ -12,11 +11,11 @@ where
 
         let mut ok = vec![true; 1 << n1];
         for v in 0..n1 {
-            for graph::Edge {
+            for &Edge {
                 src,
                 dst,
                 weight: _,
-            } in self.edges(v)
+            } in &self.edges[v]
             {
                 if dst < n1 {
                     ok[(1 << src) | (1 << dst)] = false;
@@ -34,11 +33,11 @@ where
         let mut set = vec![(1 << n2) - 1; 1 << n1];
         for v in 0..n1 {
             set[1 << v] = (1 << n2) - 1;
-            for graph::Edge {
+            for &Edge {
                 src,
                 dst,
                 weight: _,
-            } in self.edges(v)
+            } in &self.edges[v]
             {
                 if src < n1 && n1 <= dst {
                     set[1 << src] &= !(1 << (dst - n1));
@@ -53,11 +52,11 @@ where
 
         let mut ok2 = vec![true; 1 << n2];
         for v in 0..n2 {
-            for graph::Edge {
+            for &Edge {
                 src,
                 dst,
                 weight: _,
-            } in self.edges(v + n1)
+            } in &self.edges[v + n1]
             {
                 if n1 <= src {
                     ok2[(1 << (src - n1)) | (1 << (dst - n1))] = false;

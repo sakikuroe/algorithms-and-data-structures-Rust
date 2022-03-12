@@ -47,7 +47,7 @@ impl LCA {
                 src,
                 dst,
                 weight: _,
-            } in graph.edges[current].values()
+            } in &graph.edges[current]
             {
                 if self.depth[dst] > self.depth[src] + 1 {
                     self.depth[dst] = self.depth[src] + 1;

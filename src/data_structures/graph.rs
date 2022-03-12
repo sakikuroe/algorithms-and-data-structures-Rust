@@ -1,11 +1,6 @@
-use std::{
-    cmp::Ordering,
-    collections::{HashMap, HashSet, VecDeque},
-    fmt,
-    hash::Hash,
-};
+use std::{cmp::Ordering, collections::HashSet, fmt, hash::Hash};
 
-#[derive(PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct Node<T> {
     pub vertex: usize,
     pub priority: T,
@@ -29,7 +24,7 @@ where
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash, Debug)]
 pub struct Edge<T> {
     pub src: usize,
     pub dst: usize,
@@ -47,7 +42,7 @@ where
 
 impl<T> PartialOrd for Edge<T>
 where
-    T: Eq + Ord,
+    T: Eq + PartialEq + Ord,
 {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
@@ -60,20 +55,20 @@ impl<T> Edge<T> {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug)]
 pub struct Graph<T> {
     size: usize,
-    pub edges: Vec<HashMap<usize, Edge<T>>>,
+    pub edges: Vec<Vec<Edge<T>>>,
 }
 
 impl<T> Graph<T>
 where
-    T: Clone + Copy + Eq + Hash,
+    T: Clone + Copy + Eq,
 {
     pub fn new(size: usize) -> Self {
         Graph {
             size,
-            edges: vec![HashMap::new(); size],
+            edges: vec![vec![]; size],
         }
     }
 
@@ -82,53 +77,55 @@ where
     }
 
     pub fn add_edge(&mut self, src: usize, dst: usize, weight: T) {
-        self.edges[src].insert(dst, Edge::new(src, dst, weight));
-    }
-
-    pub fn contains_edge(&self, src: usize, dst: usize) -> bool {
-        self.edges[src].contains_key(&dst)
-    }
-
-    pub fn connected(&self, src: usize, dst: usize) -> bool {
-        self.edges[src].contains_key(&dst) || self.edges[dst].contains_key(&src)
-    }
-
-    pub fn gen_complement(&self) -> Graph<usize> {
-        let mut g = Graph::new(self.size());
-        for src in 0..g.size() {
-            for dst in src + 1..g.size() {
-                if !self.contains_edge(src, dst) && !self.contains_edge(dst, src) {
-                    g.add_edge(src, dst, 1);
-                }
-            }
-        }
-        g
-    }
-
-    pub fn edges(&self, src: usize) -> HashSet<Edge<T>> {
-        let mut res = HashSet::new();
-        for &edge in self.edges[src].values() {
-            res.insert(edge);
-        }
-        res
+        self.edges[src].push(Edge::new(src, dst, weight));
     }
 
     pub fn add_undirected_edge(&mut self, src: usize, dst: usize, weight: T) {
         self.add_edge(src, dst, weight);
         self.add_edge(dst, src, weight);
     }
+
+    pub fn get_all_edges(&self) -> HashSet<Edge<T>>
+    where
+        T: Hash,
+    {
+        let mut res = HashSet::new();
+        for edges in &self.edges {
+            for e in edges {
+                res.insert(e.clone());
+            }
+        }
+        res
+    }
+
+    pub fn gen_complement_graph(&self) -> Graph<T>
+    where
+        T: Hash + From<u8>,
+    {
+        let all_edges = self.get_all_edges();
+        let mut g = Graph::new(self.size());
+        for src in 0..g.size() {
+            for dst in 0..g.size() {
+                if !all_edges.contains(&Edge::new(src, dst, 1.into()))
+                    && !all_edges.contains(&Edge::new(dst, src, 1.into()))
+                {
+                    g.add_edge(src, dst, 1.into());
+                }
+            }
+        }
+        g
+    }
 }
 
 impl<T> fmt::Display for Graph<T>
 where
-    T: Clone + Ord + std::fmt::Debug + Copy,
+    T: Clone + Ord + std::fmt::Debug,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let g = (*self).clone();
         writeln!(f, "Size : {:?}", g.size)?;
         writeln!(f, "Edges: {{",)?;
-        for edges in g.edges {
-            let mut edges = edges.values().map(|x| *x).collect::<Vec<_>>();
+        for mut edges in g.edges {
             edges.sort();
             for e in edges {
                 writeln!(
