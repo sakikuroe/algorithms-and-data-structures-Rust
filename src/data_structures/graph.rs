@@ -1,29 +1,5 @@
 use std::{cmp::Ordering, collections::HashSet, fmt, hash::Hash};
 
-#[derive(Clone, PartialEq, Eq)]
-pub struct Node<T> {
-    pub vertex: usize,
-    pub priority: T,
-}
-
-impl<T> Ord for Node<T>
-where
-    T: Ord,
-{
-    fn cmp(&self, other: &Self) -> Ordering {
-        self.priority.cmp(&other.priority).reverse()
-    }
-}
-
-impl<T> PartialOrd for Node<T>
-where
-    T: Ord,
-{
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        Some(self.cmp(other))
-    }
-}
-
 #[derive(Clone, PartialEq, Eq, Hash, Debug)]
 pub struct Edge<T> {
     pub src: usize,

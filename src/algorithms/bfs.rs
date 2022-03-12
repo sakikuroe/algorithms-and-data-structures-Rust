@@ -1,10 +1,10 @@
-use crate::data_structures::graph;
-use std::{collections::VecDeque, hash::Hash, usize::MAX};
-const INF: usize = MAX / 3;
+use crate::data_structures::graph::Graph;
+use std::collections::VecDeque;
+const INF: usize = std::usize::MAX;
 
-impl<T> graph::Graph<T>
+impl<T> Graph<T>
 where
-    T: Clone + Copy + Eq + Hash,
+    T: Clone + Copy + Eq,
 {
     pub fn bfs(&mut self, starts: Vec<usize>) -> Vec<usize> {
         let mut res = vec![INF; self.size()];
@@ -17,8 +17,8 @@ where
         while let Some(node) = que.pop_front() {
             for e in &self.edges[node] {
                 if res[e.dst] == INF {
-                    que.push_back(e.dst);
                     res[e.dst] = res[e.src] + 1;
+                    que.push_back(e.dst);
                 }
             }
         }
@@ -33,7 +33,7 @@ mod tests {
 
     #[test]
     fn bfs_test() {
-        let mut g = graph::Graph::new(10);
+        let mut g = Graph::new(10);
         g.add_edge(0, 1, 1);
         g.add_edge(1, 2, 1);
         g.add_edge(1, 6, 1);
