@@ -10,7 +10,7 @@ where
         let mut indegree = {
             let mut res = vec![0; self.size()];
             for edge_list in &self.edges {
-                for (_, &e) in edge_list {
+                for e in edge_list {
                     res[e.dst] += 1;
                 }
             }
@@ -30,8 +30,12 @@ where
                 }
                 que
             };
-            while let Some(Node { priority, vertex: _ }) = que.pop() {
-                for (_, &e) in &self.edges[priority] {
+            while let Some(Node {
+                priority,
+                vertex: _,
+            }) = que.pop()
+            {
+                for e in &self.edges[priority] {
                     indegree[e.dst] -= 1;
                     if indegree[e.dst] == 0 {
                         que.push(Node {

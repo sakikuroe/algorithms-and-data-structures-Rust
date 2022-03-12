@@ -15,7 +15,7 @@ where
         }
 
         while let Some(node) = que.pop_front() {
-            for &e in self.edges[node].values() {
+            for e in &self.edges[node] {
                 if res[e.dst] == INF {
                     que.push_back(e.dst);
                     res[e.dst] = res[e.src] + 1;
