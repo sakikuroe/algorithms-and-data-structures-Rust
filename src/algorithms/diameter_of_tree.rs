@@ -7,18 +7,25 @@ impl Graph<usize> {
         let mut visited = vec![false; self.size()];
         let mut que = {
             let mut res = VecDeque::new();
-            res.push_back(0);
+            res.push_back((0, None));
             res
         };
         visited[0] = true;
 
-        while let Some(node) = que.pop_front() {
+        while let Some((node, prev)) = que.pop_front() {
             for e in &self.edges[node] {
                 if !visited[e.dst] {
                     visited[e.dst] = true;
-                    que.push_back(e.dst);
+                    que.push_back((e.dst, Some(e.src)));
                 } else {
-                    return false;
+                    match prev {
+                        Some(node) => {
+                            if node != e.dst {
+                                return false;
+                            }
+                        }
+                        None => (),
+                    }
                 }
             }
         }
