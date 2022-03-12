@@ -5,7 +5,7 @@ use std::{
     hash::Hash,
 };
 
-#[derive(Eq, PartialEq)]
+#[derive(PartialEq, Eq)]
 pub struct Node<T> {
     pub vertex: usize,
     pub priority: T,
@@ -117,151 +117,6 @@ where
         self.add_edge(src, dst, weight);
         self.add_edge(dst, src, weight);
     }
-
-    pub fn get_all_edges(&self) -> HashSet<Edge<T>> {
-        let mut res = HashSet::new();
-        for e in &self.edges {
-            res = res
-                .union(&e.values().into_iter().map(|x| *x).collect::<HashSet<_>>())
-                .into_iter()
-                .map(|x| *x)
-                .collect::<HashSet<Edge<T>>>();
-        }
-        res
-    }
-
-    pub fn gen_undirected_graph(&self) -> Graph<T> {
-        let mut g = Graph::new(self.size);
-        for edges in &self.edges {
-            for (_, &e) in edges {
-                g.add_undirected_edge(e.src, e.dst, e.weight);
-            }
-        }
-        g
-    }
-
-    pub fn get_connected_components(&self) -> usize {
-        let mut visited = vec![false; self.size];
-        let g = self.gen_undirected_graph();
-        let mut res = 0;
-        for i in 0..g.size {
-            if !visited[i] {
-                let mut que = VecDeque::new();
-                que.push_back(i);
-
-                while let Some(node) = que.pop_front() {
-                    visited[node] = true;
-                    for &e in g.edges[node].values() {
-                        if !visited[e.dst] {
-                            que.push_back(e.dst);
-                        }
-                    }
-                }
-                res += 1;
-            }
-        }
-        res
-    }
-
-    pub fn is_tree(&self) -> bool {
-        let mut visited = {
-            let mut res = HashSet::new();
-            res.insert(0);
-            res
-        };
-        let mut que = {
-            let mut res = VecDeque::new();
-            res.push_back((0, None));
-            res
-        };
-
-        while let Some((node, prev)) = que.pop_front() {
-            for e in self.edges(node) {
-                if !visited.contains(&e.dst) {
-                    visited.insert(e.dst);
-                    que.push_back((e.dst, Some(e.src)));
-                } else {
-                    match prev {
-                        Some(node) => {
-                            if e.dst != node {
-                                return false;
-                            }
-                        }
-                        None => return false,
-                    }
-                }
-            }
-        }
-
-        return visited.len() == self.size;
-    }
-
-    pub fn is_partially_tree(&self, i: usize) -> bool {
-        let mut visited = {
-            let mut res = HashSet::new();
-            res.insert(i);
-            res
-        };
-        let mut que = {
-            let mut res = VecDeque::new();
-            res.push_back((i, None));
-            res
-        };
-
-        while let Some((node, prev)) = que.pop_front() {
-            for e in self.edges(node) {
-                if !visited.contains(&e.dst) {
-                    visited.insert(e.dst);
-                    que.push_back((e.dst, Some(e.src)));
-                } else {
-                    match prev {
-                        Some(node) => {
-                            if e.dst != node {
-                                return false;
-                            }
-                        }
-                        None => return false,
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
-    pub fn is_bipartite(&self) -> Option<(usize, usize)> {
-        let mut que = VecDeque::new();
-        if self.size == 0 {
-            return Some((0, 0));
-        }
-
-        let mut color = vec![None; self.size];
-        que.push_back((0, 0));
-
-        let (mut b, mut w) = (0, 0);
-        while let Some((v, p)) = que.pop_front() {
-            if p == 0 {
-                w += 1;
-            } else {
-                b += 1;
-            }
-            color[v] = Some(p ^ 1);
-            for (&dst, _e) in &self.edges[v] {
-                if color[dst] == Some(p ^ 1) {
-                    return None;
-                }
-                if color[dst].is_none() {
-                    que.push_back((dst, p ^ 1));
-                }
-            }
-        }
-
-        if b + w == self.size {
-            return Some((b, w));
-        } else {
-            return None;
-        }
-    }
 }
 
 impl<T> fmt::Display for Graph<T>
@@ -300,14 +155,6 @@ mod tests {
         g.add_edge(1, 4, 1);
         g.add_edge(2, 5, 1);
         g.add_edge(2, 6, 1);
-        assert_eq!(g.gen_undirected_graph().is_tree(), true);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(0), true);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(1), true);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(2), true);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(3), true);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(4), true);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(5), true);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(6), true);
     }
 
     #[test]
@@ -319,13 +166,5 @@ mod tests {
         g.add_edge(4, 5, 1);
         g.add_edge(5, 6, 1);
         g.add_edge(3, 6, 1);
-        assert_eq!(g.gen_undirected_graph().is_tree(), false);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(0), true);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(1), true);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(2), true);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(3), false);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(4), false);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(5), false);
-        assert_eq!(g.gen_undirected_graph().is_partially_tree(6), false);
     }
 }
