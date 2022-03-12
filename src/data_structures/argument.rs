@@ -5,14 +5,13 @@ pub struct Argument {
     pub x: isize,
     pub y: isize,
 }
+
 impl Argument {
     pub fn new(x: isize, y: isize) -> Self {
-        Argument {
-            x,
-            y,
-        }
+        Argument { x, y }
     }
 }
+
 impl Ord for Argument {
     fn cmp(&self, other: &Self) -> Ordering {
         if self.x == 0 && self.y == 0 {
@@ -45,11 +44,13 @@ impl Ord for Argument {
         }
     }
 }
+
 impl PartialOrd for Argument {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
+
 impl PartialEq for Argument {
     fn eq(&self, other: &Self) -> bool {
         self.y * other.x == self.x * other.y
