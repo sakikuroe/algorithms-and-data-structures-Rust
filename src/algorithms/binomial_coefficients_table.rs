@@ -35,9 +35,7 @@ impl<const MOD: usize> BinomicalCoeff<MOD> {
         if n < r {
             return ModInt::<MOD>::new(0);
         }
-        self.factorial_table[n]
-            * self.factorial_inv_table[r]
-            * self.factorial_inv_table[n - r]
+        self.factorial_table[n] * self.factorial_inv_table[r] * self.factorial_inv_table[n - r]
     }
 }
 
