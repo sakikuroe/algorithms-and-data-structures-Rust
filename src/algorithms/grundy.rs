@@ -13,7 +13,6 @@ pub fn mex(v: &Vec<usize>) -> usize {
     v.len()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
