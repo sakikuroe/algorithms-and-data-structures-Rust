@@ -28,18 +28,14 @@ impl Graph<usize> {
     }
 
     pub fn get_diameter(&self) -> Result<usize, &str> {
+        fn arg_max(v: &Vec<usize>) -> usize {
+            v.into_iter().enumerate().max_by_key(|x| x.1).unwrap().0
+        }
+
         if !self.is_tree() {
             return Err("This graph is not a tree.");
         }
-        fn arg_max(v: &Vec<usize>) -> usize {
-            v.into_iter()
-                .enumerate()
-                .fold(
-                    (0, 0),
-                    |(i, max), (j, &x)| if max < x { (j, x) } else { (i, max) },
-                )
-                .0
-        }
+
         let new_src = arg_max(&self.dijkstra(0));
         Ok(self
             .dijkstra(new_src)
