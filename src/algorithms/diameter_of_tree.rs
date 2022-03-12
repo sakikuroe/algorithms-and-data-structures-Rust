@@ -5,12 +5,10 @@ use crate::data_structures::graph::Graph;
 impl Graph<usize> {
     pub fn is_tree(&self) -> bool {
         let mut visited = vec![false; self.size()];
-        let mut que = {
-            let mut res = VecDeque::new();
-            res.push_back((0, None));
-            res
-        };
+        let mut que = VecDeque::new();
+
         visited[0] = true;
+        que.push_back((0, None));
 
         while let Some((node, prev)) = que.pop_front() {
             for e in &self.edges[node] {
@@ -18,13 +16,10 @@ impl Graph<usize> {
                     visited[e.dst] = true;
                     que.push_back((e.dst, Some(e.src)));
                 } else {
-                    match prev {
-                        Some(node) => {
-                            if node != e.dst {
-                                return false;
-                            }
+                    if let Some(prev_node) = prev {
+                        if prev_node != e.dst {
+                            return false;
                         }
-                        None => (),
                     }
                 }
             }
