@@ -1,5 +1,7 @@
 # algorithms-and-data-structures-Rust
 
+[![library-test](https://github.com/sakikuroe/algorithms-and-data-structures-Rust/actions/workflows/rust.yml/badge.svg)](https://github.com/sakikuroe/algorithms-and-data-structures-Rust/actions/workflows/rust.yml) 
+
 Algorithms and Data structures in Rust.
 
 - Algorithms
