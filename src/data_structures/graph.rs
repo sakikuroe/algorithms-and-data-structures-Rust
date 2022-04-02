@@ -33,7 +33,6 @@ impl<T> Edge<T> {
 
 #[derive(Clone, Debug)]
 pub struct Graph<T> {
-    size: usize,
     pub edges: Vec<Vec<Edge<T>>>,
 }
 
@@ -43,13 +42,12 @@ where
 {
     pub fn new(size: usize) -> Self {
         Graph {
-            size,
             edges: vec![vec![]; size],
         }
     }
 
     pub fn size(&self) -> usize {
-        self.size
+        self.edges.len()
     }
 
     pub fn add_edge(&mut self, src: usize, dst: usize, weight: T) {
@@ -95,11 +93,11 @@ where
 
 impl<T> fmt::Display for Graph<T>
 where
-    T: Clone + Ord + std::fmt::Debug,
+    T: Clone + Copy + Ord + std::fmt::Debug,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let g = (*self).clone();
-        writeln!(f, "Size : {:?}", g.size)?;
+        writeln!(f, "Size : {:?}", g.size())?;
         writeln!(f, "Edges: {{",)?;
         for mut edges in g.edges {
             edges.sort();
