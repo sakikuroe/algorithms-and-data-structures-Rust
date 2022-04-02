@@ -12,6 +12,7 @@ pub mod kruskal;
 pub mod lca;
 pub mod max_clique;
 pub mod max_independent;
+pub mod scc;
 pub mod num;
 pub mod rolling_hash;
 pub mod sieve_of_eratosthenes;
